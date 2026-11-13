@@ -42,7 +42,7 @@
 
     .container {
       width: 100%;
-      max-width: 540px;
+      max-width: 960px; /* Ampliado para que la tabla semestral respire cómodo en web */
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -56,7 +56,7 @@
       background: rgba(255, 255, 255, 0.07);
       border: 1px solid var(--border-color);
       border-radius: 16px;
-      padding: 14px 16px;
+      padding: 14px 18px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(10px);
     }
@@ -116,8 +116,8 @@
       background: transparent;
       border: none;
       color: var(--text-sub);
-      padding: 9px 4px;
-      font-size: 11px;
+      padding: 10px 6px;
+      font-size: 11.5px;
       font-weight: 700;
       border-radius: 10px;
       cursor: pointer;
@@ -157,8 +157,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 8px;
+      padding-bottom: 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .section-title {
@@ -204,44 +206,204 @@
       font-weight: 600;
     }
 
+    /* KPIs del Semestre */
     .kpi-grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 10px;
     }
     .kpi-mini {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 10px 8px;
+      padding: 12px 10px;
       text-align: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
     .kpi-mini-label {
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 700;
       color: var(--text-sub);
       text-transform: uppercase;
+      letter-spacing: 0.4px;
     }
     .kpi-mini-val {
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 800;
       margin-top: 4px;
     }
 
-    .group-label {
+    /* ==========================================
+       MATRIZ SEMESTRAL EDITABLE (6 MESES + TOTAL)
+       ========================================== */
+    .matrix-scroll {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      background: rgba(5, 8, 17, 0.55);
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      min-width: 760px;
+    }
+
+    .matrix-table th, .matrix-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      white-space: nowrap;
+    }
+
+    /* Columna fija a la izquierda (Concepto) */
+    .matrix-table th:first-child,
+    .matrix-table td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      background: #0D1528;
+      text-align: left;
+      font-weight: 700;
+      min-width: 155px;
+      border-right: 1.5px solid rgba(255, 255, 255, 0.16);
+    }
+
+    /* Columna Total fija o resaltada a la derecha */
+    .matrix-table th:last-child,
+    .matrix-table td:last-child {
+      background: rgba(58, 134, 255, 0.08);
+      font-weight: 800;
+      text-align: right;
+      border-left: 1.5px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .matrix-table th {
+      text-align: right;
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-sub);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .matrix-table td {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Encabezados de bloque (INGRESOS / GASTOS / RESTANTE) */
+    .row-banner-ingresos td {
+      background: rgba(0, 255, 136, 0.16) !important;
+      color: var(--accent-green) !important;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+    .row-banner-gastos td {
+      background: rgba(255, 51, 102, 0.16) !important;
+      color: #FF7597 !important;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+    .row-banner-restante td {
+      background: rgba(58, 134, 255, 0.18) !important;
+      color: var(--accent-blue) !important;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    /* Filas de Total por Bloque */
+    .row-total-ingresos td {
+      background: rgba(0, 255, 136, 0.09) !important;
+      color: var(--accent-green);
+      font-weight: 800;
+      border-top: 1px solid rgba(0, 255, 136, 0.3);
+    }
+    .row-total-gastos td {
+      background: rgba(255, 51, 102, 0.09) !important;
+      color: #FF7597;
+      font-weight: 800;
+      border-top: 1px solid rgba(255, 51, 102, 0.3);
+    }
+    .row-total-restante td {
+      background: rgba(58, 134, 255, 0.12) !important;
+      font-weight: 900;
+      font-size: 12.5px;
+    }
+
+    /* Inputs limpios dentro de la matriz */
+    .cell-input-num {
+      width: 92px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--text-main);
+      font-size: 11.5px;
+      font-weight: 600;
+      text-align: right;
+      padding: 4px 6px;
+      outline: none;
+      transition: all 0.15s ease;
+    }
+    .cell-input-num:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.09);
+    }
+    .cell-input-num:focus {
+      border-color: var(--accent-blue);
+      background: rgba(58, 134, 255, 0.18);
+      color: #FFF;
+    }
+
+    .cell-input-name {
+      width: 115px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 5px;
+      color: var(--text-main);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 5px;
+      outline: none;
+    }
+    .cell-input-name:hover, .cell-input-name:focus {
+      border-color: rgba(58, 134, 255, 0.5);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-mini-action {
+      background: rgba(58, 134, 255, 0.15);
+      border: 1px solid rgba(58, 134, 255, 0.4);
+      color: var(--accent-blue);
+      padding: 3px 8px;
+      border-radius: 6px;
       font-size: 10px;
       font-weight: 800;
-      letter-spacing: 1px;
-      color: var(--text-sub);
-      text-transform: uppercase;
-      margin-top: 4px;
-      display: flex;
-      justify-content: space-between;
+      cursor: pointer;
+    }
+    .btn-mini-del {
+      background: transparent;
+      border: none;
+      color: rgba(255, 51, 102, 0.7);
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 2px 4px;
+      margin-right: 2px;
+    }
+    .btn-mini-del:hover {
+      color: var(--accent-red);
     }
 
+    /* Resto de estilos de Balance, Calendario y Nubank */
     .row-item {
       display: flex;
       justify-content: space-between;
@@ -251,128 +413,26 @@
       border-radius: 10px;
       padding: 10px 12px;
     }
-    .row-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .badge {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 800;
-      flex-shrink: 0;
-    }
-    .row-info h4 {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-    .row-info span {
-      font-size: 10px;
-      color: var(--text-sub);
-    }
-    .row-right {
-      text-align: right;
-    }
-    .row-right .val {
-      font-size: 13px;
-      font-weight: 700;
-    }
+    .row-left { display: flex; align-items: center; gap: 10px; }
+    .badge { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; }
+    .row-info h4 { font-size: 12px; font-weight: 700; color: var(--text-main); }
+    .row-info span { font-size: 10px; color: var(--text-sub); }
+    .row-right { text-align: right; }
+    .row-right .val { font-size: 13px; font-weight: 700; }
 
-    .progress-bg {
-      width: 100%;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-top: 5px;
-    }
-    .progress-fill {
-      height: 100%;
-      border-radius: 3px;
-      transition: width 0.4s ease;
-    }
+    .progress-bg { width: 100%; height: 5px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; margin-top: 5px; }
+    .progress-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+    .pagado-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9.5px; font-weight: 800; color: var(--accent-green); background: rgba(0, 255, 136, 0.12); border: 1px solid rgba(0, 255, 136, 0.3); padding: 2px 6px; border-radius: 5px; margin-top: 3px; }
+    .excedido-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9.5px; font-weight: 800; color: var(--accent-red); background: rgba(255, 51, 102, 0.12); border: 1px solid rgba(255, 51, 102, 0.35); padding: 2px 6px; border-radius: 5px; margin-top: 3px; }
 
-    .pagado-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 9.5px;
-      font-weight: 800;
-      color: var(--accent-green);
-      background: rgba(0, 255, 136, 0.12);
-      border: 1px solid rgba(0, 255, 136, 0.3);
-      padding: 2px 6px;
-      border-radius: 5px;
-      margin-top: 3px;
-    }
-    .excedido-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 9.5px;
-      font-weight: 800;
-      color: var(--accent-red);
-      background: rgba(255, 51, 102, 0.12);
-      border: 1px solid rgba(255, 51, 102, 0.35);
-      padding: 2px 6px;
-      border-radius: 5px;
-      margin-top: 3px;
-    }
+    .calendar-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+    .stat-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 10px 12px; text-align: center; }
+    .stat-title { font-size: 9.5px; color: var(--text-sub); text-transform: uppercase; font-weight: 700; }
+    .stat-val { font-size: 15px; font-weight: 800; margin-top: 3px; }
 
-    .calendar-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 4px;
-    }
-    .stat-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 10px 12px;
-      text-align: center;
-    }
-    .stat-title {
-      font-size: 9.5px;
-      color: var(--text-sub);
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-    .stat-val {
-      font-size: 15px;
-      font-weight: 800;
-      margin-top: 3px;
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 6px;
-    }
-    .cal-day-header {
-      text-align: center;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-sub);
-      padding: 4px 0;
-    }
-    .cal-cell {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      aspect-ratio: 1 / 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 6px;
-      position: relative;
-    }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+    .cal-day-header { text-align: center; font-size: 11px; font-weight: 700; color: var(--text-sub); padding: 4px 0; }
+    .cal-cell { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; aspect-ratio: 1 / 1; display: flex; flex-direction: column; justify-content: space-between; padding: 6px; position: relative; }
     .cal-cell.empty { background: transparent; border: none; }
     .cal-cell.has-expense { background: rgba(255, 51, 102, 0.22); border-color: rgba(255, 51, 102, 0.4); }
     .cal-cell.max-expense { border: 2px solid var(--accent-gold) !important; background: rgba(255, 215, 0, 0.15) !important; }
@@ -381,61 +441,12 @@
     .cal-day-amount { font-size: 9px; font-weight: 700; color: #FF88AA; text-align: right; }
     .max-badge-tag { position: absolute; top: -5px; right: -5px; font-size: 8px; background: var(--accent-gold); color: #000; font-weight: 900; padding: 1px 4px; border-radius: 4px; }
 
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: var(--text-sub);
-      font-size: 12px;
-      background: rgba(255,255,255,0.03);
-      border-radius: 16px;
-      border: 1px dashed var(--border-color);
-    }
-
-    .btn-toggle-tabla {
-      width: 100%;
-      background: rgba(58, 134, 255, 0.12);
-      border: 1px solid rgba(58, 134, 255, 0.4);
-      color: var(--accent-blue);
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 11px;
-      font-weight: 800;
-      cursor: pointer;
-      margin-top: 6px;
-    }
-
-    .tabla-wrapper {
-      display: none;
-      width: 100%;
-      overflow-x: auto;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      background: rgba(0, 0, 0, 0.35);
-      margin-top: 6px;
-      max-height: 380px;
-      overflow-y: auto;
-    }
-    .tabla-detalle {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 11px;
-      text-align: left;
-    }
-    .tabla-detalle th {
-      background: #131D35;
-      color: var(--accent-blue);
-      padding: 10px;
-      font-weight: 800;
-      position: sticky;
-      top: 0;
-      border-bottom: 1px solid var(--border-color);
-      white-space: nowrap;
-    }
-    .tabla-detalle td {
-      padding: 8px 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      white-space: nowrap;
-    }
+    .loading { text-align: center; padding: 30px; color: var(--text-sub); font-size: 12px; background: rgba(255,255,255,0.03); border-radius: 16px; border: 1px dashed var(--border-color); }
+    .btn-toggle-tabla { width: 100%; background: rgba(58, 134, 255, 0.12); border: 1px solid rgba(58, 134, 255, 0.4); color: var(--accent-blue); padding: 10px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer; margin-top: 6px; }
+    .tabla-wrapper { display: none; width: 100%; overflow-x: auto; border: 1px solid var(--border-color); border-radius: 12px; background: rgba(0, 0, 0, 0.35); margin-top: 6px; max-height: 380px; overflow-y: auto; }
+    .tabla-detalle { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
+    .tabla-detalle th { background: #131D35; color: var(--accent-blue); padding: 10px; font-weight: 800; position: sticky; top: 0; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
+    .tabla-detalle td { padding: 8px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); white-space: nowrap; }
     .tabla-detalle tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
   </style>
 </head>
@@ -453,7 +464,7 @@
 
     <div class="nav-tabs">
       <button class="tab-btn active" onclick="switchTab('balance', this)">Balance</button>
-      <button class="tab-btn" onclick="switchTab('presupuesto', this)">Presupuesto</button>
+      <button class="tab-btn" onclick="switchTab('presupuesto', this)">Presupuesto (6M)</button>
       <button class="tab-btn" onclick="switchTab('calendario', this)">Calendario</button>
       <button class="tab-btn" onclick="switchTab('nubank', this)">Nubank</button>
     </div>
@@ -478,56 +489,46 @@
       </div>
     </div>
 
-    <!-- VISTA 2: PRESUPUESTO MANUAL -->
+    <!-- VISTA 2: PRESUPUESTO SEMESTRAL (6 MESES A LA VEZ + TOTALES AUTOMÁTICOS) -->
     <div id="presupuestoView" class="view-section">
       <div class="section-block">
         <div class="section-header-row">
-          <div class="section-title">PLANIFICACIÓN MANUAL</div>
-          <div style="display:flex; gap:6px;">
-            <select id="selectAnioPresupuesto" class="filter-select" onchange="renderPresupuestoManual()">
-              <option value="2026">2026</option>
-              <option value="2027">2027</option>
+          <div class="section-title">MATRIZ SEMESTRAL</div>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <select id="selectSemestre" class="filter-select" onchange="renderMatrizSemestral()">
+              <option value="2026_S2">2026 · Jul – Dic (Sem 2)</option>
+              <option value="2027_S1" selected>2027 · Ene – Jun (Sem 1)</option>
+              <option value="2027_S2">2027 · Jul – Dic (Sem 2)</option>
             </select>
-            <select id="selectMesPresupuesto" class="filter-select" onchange="renderPresupuestoManual()"></select>
+            <button onclick="resetearMatriz()" class="btn-mini-action" style="background:rgba(255,51,102,0.12); border-color:rgba(255,51,102,0.35); color:#FF88AA;" title="Restaurar valores iniciales">↺ Reset</button>
           </div>
         </div>
 
+        <!-- KPIs Consolidados del Semestre -->
         <div class="kpi-grid-3">
           <div class="kpi-mini">
-            <div class="kpi-mini-label">Ingresos</div>
-            <div class="kpi-mini-val" id="presIngresosTotal" style="color: var(--accent-green);">$0</div>
+            <div class="kpi-mini-label">Total Ingresos (6M)</div>
+            <div class="kpi-mini-val" id="semTotalIngresos" style="color: var(--accent-green);">$0</div>
           </div>
           <div class="kpi-mini">
-            <div class="kpi-mini-label">Gastos</div>
-            <div class="kpi-mini-val" id="presGastosTotal" style="color: var(--accent-red);">$0</div>
+            <div class="kpi-mini-label">Total Gastos (6M)</div>
+            <div class="kpi-mini-val" id="semTotalGastos" style="color: var(--accent-red);">$0</div>
           </div>
           <div class="kpi-mini">
-            <div class="kpi-mini-label">Restante</div>
-            <div class="kpi-mini-val" id="presRestanteTotal" style="color: var(--accent-blue);">$0</div>
+            <div class="kpi-mini-label">Restante Semestre</div>
+            <div class="kpi-mini-val" id="semTotalRestante" style="color: var(--accent-blue);">$0</div>
           </div>
         </div>
 
-        <div class="card">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:10px; font-weight:700; color:var(--text-sub); text-transform:uppercase;">Compromiso de Ingresos</span>
-            <span id="presPctEjecucion" style="font-size:11px; font-weight:800;">0% gastado</span>
-          </div>
-          <div class="progress-bg" style="height:7px;">
-            <div class="progress-fill" id="presBarraEjecucion" style="width:0%; background: var(--accent-blue);"></div>
-          </div>
+        <!-- Tabla Matriz de 6 Meses -->
+        <div class="matrix-scroll">
+          <table class="matrix-table" id="tablaMatrizSemestral"></table>
         </div>
 
-        <div class="group-label">
-          <span>💰 Ingresos</span>
-          <span id="presTagIngresos">$0</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:10px; color:var(--text-sub);">
+          <span>💡 Toca cualquier celda o nombre para editarlo directamente.</span>
+          <span style="color:var(--accent-green);">✓ Guardado automático</span>
         </div>
-        <div id="presListaIngresos" style="display:flex; flex-direction:column; gap:8px;"></div>
-
-        <div class="group-label" style="margin-top:6px;">
-          <span>🧾 Gastos Fijos</span>
-          <span id="presTagGastos">$0</span>
-        </div>
-        <div id="presListaGastos" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
     </div>
 
@@ -576,6 +577,7 @@
     const sheetID = "1wVYYrD0tjt-InNRNP5zw-pvNLb5oLZqiwnVnhx2fSJ4";
     const sheetNameDetalle = "Detalle";
     const sheetNameNubank = "Nubank";
+    const STORAGE_KEY_SEMESTRES = "mis_finanzas_semestres_v1";
 
     let dataDetalle = [];
     let dataNubank = [];
@@ -587,47 +589,272 @@
     ];
 
     // ==========================================
-    // BASE DE DATOS DE PRESUPUESTO MANUAL (EDITABLE AQUÍ)
+    // ESTRUCTURA SEMESTRAL (6 MESES POR BLOQUE)
     // ==========================================
-    const PRESUPUESTO_MANUAL = {
-      2026: {
-        "Noviembre": {
-          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 4086000 },
-          gastos: { "Nubank": 2072097, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000, "Bancolombia": 2077687 }
-        },
-        "Diciembre": {
-          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
-          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 550000, "Eliana": 580000, "Bancolombia": 434650 }
-        }
+    const SEMESTRES_DEFAULT = {
+      "2026_S2": {
+        meses: ["Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+        ingresos: [
+          { nombre: "Nomina Eliana", valores: [0, 0, 0, 0, 2000000, 2000000] },
+          { nombre: "Nomina Danilo", valores: [0, 0, 0, 0, 4086000, 3686000] }
+        ],
+        gastos: [
+          { nombre: "Nubank", valores: [0, 0, 0, 0, 2072097, 1242798] },
+          { nombre: "Cuidado Maddi", valores: [0, 0, 0, 0, 150000, 150000] },
+          { nombre: "Seguro Moto", valores: [0, 0, 0, 0, 56216, 56216] },
+          { nombre: "Danilo", valores: [0, 0, 0, 0, 850000, 550000] },
+          { nombre: "Eliana", valores: [0, 0, 0, 0, 880000, 580000] },
+          { nombre: "Bancolombia", valores: [0, 0, 0, 0, 2077687, 434650] }
+        ]
       },
-      2027: {
-        "Enero": {
-          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
-          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
-        },
-        "Febrero": {
-          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
-          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
-        },
-        "Marzo": {
-          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
-          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
-        },
-        "Abril": {
-          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
-          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
-        },
-        "Mayo": {
-          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
-          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
-        },
-        "Junio": {
-          ingresos: { "Nomina Eliana": 3000000, "Nomina Danilo": 5686000 },
-          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
-        }
+      "2027_S1": {
+        meses: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
+        ingresos: [
+          { nombre: "Nomina Eliana", valores: [2000000, 2000000, 2000000, 2000000, 2000000, 3000000] },
+          { nombre: "Nomina Danilo", valores: [3686000, 3686000, 3686000, 3686000, 3686000, 5686000] }
+        ],
+        gastos: [
+          { nombre: "Nubank", valores: [1242798, 1242798, 1242798, 1242798, 1242798, 1242798] },
+          { nombre: "Cuidado Maddi", valores: [150000, 150000, 150000, 150000, 150000, 150000] },
+          { nombre: "Seguro Moto", valores: [56216, 56216, 56216, 56216, 56216, 56216] },
+          { nombre: "Danilo", valores: [850000, 850000, 850000, 850000, 850000, 850000] },
+          { nombre: "Eliana", valores: [880000, 880000, 880000, 880000, 880000, 880000] }
+        ]
+      },
+      "2027_S2": {
+        meses: ["Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+        ingresos: [
+          { nombre: "Nomina Eliana", valores: [2000000, 2000000, 2000000, 2000000, 2000000, 3000000] },
+          { nombre: "Nomina Danilo", valores: [3686000, 3686000, 3686000, 3686000, 3686000, 5686000] }
+        ],
+        gastos: [
+          { nombre: "Nubank", valores: [1242798, 1242798, 1242798, 1242798, 1242798, 1242798] },
+          { nombre: "Cuidado Maddi", valores: [150000, 150000, 150000, 150000, 150000, 150000] },
+          { nombre: "Seguro Moto", valores: [56216, 56216, 56216, 56216, 56216, 56216] },
+          { nombre: "Danilo", valores: [850000, 850000, 850000, 850000, 850000, 850000] },
+          { nombre: "Eliana", valores: [880000, 880000, 880000, 880000, 880000, 880000] }
+        ]
       }
     };
 
+    let semestresData = JSON.parse(localStorage.getItem(STORAGE_KEY_SEMESTRES)) || JSON.parse(JSON.stringify(SEMESTRES_DEFAULT));
+
+    function guardarSemestres() {
+      localStorage.setItem(STORAGE_KEY_SEMESTRES, JSON.stringify(semestresData));
+    }
+
+    function resetearMatriz() {
+      if (confirm("¿Restaurar los valores iniciales de este semestre?")) {
+        const key = document.getElementById("selectSemestre").value;
+        semestresData[key] = JSON.parse(JSON.stringify(SEMESTRES_DEFAULT[key]));
+        guardarSemestres();
+        renderMatrizSemestral();
+      }
+    }
+
+    // Actualiza un monto en vivo sin perder el foco del input
+    function onCeldaMontoChange(tipo, rowIdx, colIdx, rawVal) {
+      const key = document.getElementById("selectSemestre").value;
+      const num = parseInt(String(rawVal).replace(/\D/g, ""), 10) || 0;
+      semestresData[key][tipo][rowIdx].valores[colIdx] = num;
+      guardarSemestres();
+      actualizarTotalesEnVivo();
+    }
+
+    function onCeldaNombreChange(tipo, rowIdx, nuevoNombre) {
+      const key = document.getElementById("selectSemestre").value;
+      semestresData[key][tipo][rowIdx].nombre = nuevoNombre;
+      guardarSemestres();
+    }
+
+    function agregarFilaSemestre(tipo) {
+      const key = document.getElementById("selectSemestre").value;
+      semestresData[key][tipo].push({
+        nombre: tipo === "ingresos" ? "Nuevo Ingreso" : "Nuevo Gasto",
+        valores: [0, 0, 0, 0, 0, 0]
+      });
+      guardarSemestres();
+      renderMatrizSemestral();
+    }
+
+    function eliminarFilaSemestre(tipo, rowIdx) {
+      const key = document.getElementById("selectSemestre").value;
+      semestresData[key][tipo].splice(rowIdx, 1);
+      guardarSemestres();
+      renderMatrizSemestral();
+    }
+
+    // Recalcula todos los totales horizontales y verticales instantáneamente
+    function actualizarTotalesEnVivo() {
+      const key = document.getElementById("selectSemestre").value;
+      const bloque = semestresData[key];
+
+      let totIngPorMes = [0, 0, 0, 0, 0, 0];
+      let totGasPorMes = [0, 0, 0, 0, 0, 0];
+
+      // Totales horizontales de ingresos
+      bloque.ingresos.forEach((fila, rIdx) => {
+        let sumaFila = 0;
+        fila.valores.forEach((v, cIdx) => {
+          sumaFila += v;
+          totIngPorMes[cIdx] += v;
+        });
+        const cellTot = document.getElementById(`tot_ing_${rIdx}`);
+        if (cellTot) cellTot.innerText = `$${format(sumaFila)}`;
+      });
+
+      // Totales horizontales de gastos
+      bloque.gastos.forEach((fila, rIdx) => {
+        let sumaFila = 0;
+        fila.valores.forEach((v, cIdx) => {
+          sumaFila += v;
+          totGasPorMes[cIdx] += v;
+        });
+        const cellTot = document.getElementById(`tot_gas_${rIdx}`);
+        if (cellTot) cellTot.innerText = `$${format(sumaFila)}`;
+      });
+
+      // Totales verticales por mes y gran total
+      let granTotalIng = 0;
+      let granTotalGas = 0;
+
+      for (let c = 0; c < 6; c++) {
+        granTotalIng += totIngPorMes[c];
+        granTotalGas += totGasPorMes[c];
+        let restMes = totIngPorMes[c] - totGasPorMes[c];
+
+        const elIng = document.getElementById(`col_tot_ing_${c}`);
+        const elGas = document.getElementById(`col_tot_gas_${c}`);
+        const elRes = document.getElementById(`col_tot_res_${c}`);
+
+        if (elIng) elIng.innerText = `$${format(totIngPorMes[c])}`;
+        if (elGas) elGas.innerText = `$${format(totGasPorMes[c])}`;
+        if (elRes) {
+          elRes.innerText = `$${format(restMes)}`;
+          elRes.style.color = restMes > 0 ? "var(--accent-green)" : (restMes === 0 ? "var(--accent-gold)" : "var(--accent-red)");
+        }
+      }
+
+      let granRestante = granTotalIng - granTotalGas;
+
+      const elGranIng = document.getElementById("gran_tot_ing");
+      const elGranGas = document.getElementById("gran_tot_gas");
+      const elGranRes = document.getElementById("gran_tot_res");
+
+      if (elGranIng) elGranIng.innerText = `$${format(granTotalIng)}`;
+      if (elGranGas) elGranGas.innerText = `$${format(granTotalGas)}`;
+      if (elGranRes) {
+        elGranRes.innerText = `$${format(granRestante)}`;
+        elGranRes.style.color = granRestante >= 0 ? "var(--accent-green)" : "var(--accent-red)";
+      }
+
+      // Actualizar KPIs superiores
+      document.getElementById("semTotalIngresos").innerText = `$${format(granTotalIng)}`;
+      document.getElementById("semTotalGastos").innerText = `$${format(granTotalGas)}`;
+      const kpiRes = document.getElementById("semTotalRestante");
+      kpiRes.innerText = `$${format(granRestante)}`;
+      kpiRes.style.color = granRestante >= 0 ? "var(--accent-green)" : "var(--accent-red)";
+    }
+
+    function renderMatrizSemestral() {
+      const key = document.getElementById("selectSemestre").value;
+      const bloque = semestresData[key];
+      const tabla = document.getElementById("tablaMatrizSemestral");
+
+      let html = `
+        <thead>
+          <tr>
+            <th>CONCEPTO</th>
+            ${bloque.meses.map(m => `<th>${m}</th>`).join("")}
+            <th>TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- SECCIÓN INGRESOS -->
+          <tr class="row-banner-ingresos">
+            <td colspan="8">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span>💰 INGRESOS</span>
+                <button class="btn-mini-action" style="background:rgba(0,255,136,0.15); border-color:rgba(0,255,136,0.4); color:var(--accent-green);" onclick="agregarFilaSemestre('ingresos')">+ Ingreso</button>
+              </div>
+            </td>
+          </tr>
+      `;
+
+      bloque.ingresos.forEach((fila, rIdx) => {
+        html += `<tr>
+          <td>
+            <button class="btn-mini-del" onclick="eliminarFilaSemestre('ingresos', ${rIdx})" title="Eliminar fila">✕</button>
+            <input type="text" class="cell-input-name" value="${fila.nombre}" onchange="onCeldaNombreChange('ingresos', ${rIdx}, this.value)">
+          </td>
+          ${fila.valores.map((val, cIdx) => `
+            <td>
+              <input type="number" class="cell-input-num" value="${val}" oninput="onCeldaMontoChange('ingresos', ${rIdx}, ${cIdx}, this.value)">
+            </td>
+          `).join("")}
+          <td id="tot_ing_${rIdx}" style="color:var(--accent-green);">$0</td>
+        </tr>`;
+      });
+
+      html += `
+        <tr class="row-total-ingresos">
+          <td>TOTAL INGRESOS</td>
+          ${[0,1,2,3,4,5].map(c => `<td id="col_tot_ing_${c}">$0</td>`).join("")}
+          <td id="gran_tot_ing">$0</td>
+        </tr>
+
+        <!-- SECCIÓN GASTOS -->
+        <tr class="row-banner-gastos">
+          <td colspan="8">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span>🧾 GASTOS</span>
+              <button class="btn-mini-action" style="background:rgba(255,51,102,0.15); border-color:rgba(255,51,102,0.4); color:#FF88AA;" onclick="agregarFilaSemestre('gastos')">+ Gasto</button>
+            </div>
+          </td>
+        </tr>
+      `;
+
+      bloque.gastos.forEach((fila, rIdx) => {
+        html += `<tr>
+          <td>
+            <button class="btn-mini-del" onclick="eliminarFilaSemestre('gastos', ${rIdx})" title="Eliminar fila">✕</button>
+            <input type="text" class="cell-input-name" value="${fila.nombre}" onchange="onCeldaNombreChange('gastos', ${rIdx}, this.value)">
+          </td>
+          ${fila.valores.map((val, cIdx) => `
+            <td>
+              <input type="number" class="cell-input-num" value="${val}" oninput="onCeldaMontoChange('gastos', ${rIdx}, ${cIdx}, this.value)">
+            </td>
+          `).join("")}
+          <td id="tot_gas_${rIdx}">$0</td>
+        </tr>`;
+      });
+
+      html += `
+        <tr class="row-total-gastos">
+          <td>TOTAL GASTOS</td>
+          ${[0,1,2,3,4,5].map(c => `<td id="col_tot_gas_${c}">$0</td>`).join("")}
+          <td id="gran_tot_gas">$0</td>
+        </tr>
+
+        <!-- SECCIÓN RESTANTE -->
+        <tr class="row-banner-restante">
+          <td colspan="8">⚖️ RESTANTE (INGRESOS - GASTOS)</td>
+        </tr>
+        <tr class="row-total-restante">
+          <td>TOTAL RESTANTE</td>
+          ${[0,1,2,3,4,5].map(c => `<td id="col_tot_res_${c}">$0</td>`).join("")}
+          <td id="gran_tot_res">$0</td>
+        </tr>
+        </tbody>
+      `;
+
+      tabla.innerHTML = html;
+      actualizarTotalesEnVivo();
+    }
+
+    // ==========================================
+    // RESTO DE LA APP (BALANCE, CALENDARIO, NUBANK)
+    // ==========================================
     function inicializarFiltros() {
       const hoy = new Date();
       const mesActual = hoy.getMonth();
@@ -653,30 +880,7 @@
         if (y === añoActual) opt.selected = true;
         selectAño.appendChild(opt);
       }
-
-      // Inicializar selectores de presupuesto manual
-      const selAnioPres = document.getElementById("selectAnioPresupuesto");
-      selAnioPres.value = añoActual >= 2027 ? "2027" : "2026";
-      actualizarMesesPresupuesto();
     }
-
-    function actualizarMesesPresupuesto() {
-      const anio = document.getElementById("selectAnioPresupuesto").value;
-      const selectMesPres = document.getElementById("selectMesPresupuesto");
-      selectMesPres.innerHTML = "";
-      
-      if (PRESUPUESTO_MANUAL[anio]) {
-        Object.keys(PRESUPUESTO_MANUAL[anio]).forEach(mes => {
-          let opt = document.createElement("option");
-          opt.value = mes;
-          opt.innerText = mes;
-          selectMesPres.appendChild(opt);
-        });
-      }
-      renderPresupuestoManual();
-    }
-
-    document.getElementById("selectAnioPresupuesto").addEventListener("change", actualizarMesesPresupuesto);
 
     function switchTab(tab, btnEl) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -772,84 +976,12 @@
     function renderTodo() {
       renderBalance();
       renderTablaDetalle();
-      renderPresupuestoManual();
+      renderMatrizSemestral();
       renderCalendario();
       renderNubank();
       renderTablaNubank();
     }
 
-    // RENDER PRESUPUESTO MANUAL
-    function renderPresupuestoManual() {
-      const anio = document.getElementById("selectAnioPresupuesto").value;
-      const mes = document.getElementById("selectMesPresupuesto").value;
-      if (!PRESUPUESTO_MANUAL[anio] || !PRESUPUESTO_MANUAL[anio][mes]) return;
-
-      const dataMes = PRESUPUESTO_MANUAL[anio][mes];
-
-      let totalIngresos = 0;
-      Object.values(dataMes.ingresos).forEach(v => totalIngresos += v);
-
-      let totalGastos = 0;
-      Object.values(dataMes.gastos).forEach(v => totalGastos += v);
-
-      let restante = totalIngresos - totalGastos;
-
-      document.getElementById('presIngresosTotal').innerText = `$${format(totalIngresos)}`;
-      document.getElementById('presGastosTotal').innerText = `$${format(totalGastos)}`;
-      
-      const restEl = document.getElementById('presRestanteTotal');
-      restEl.innerText = `$${format(restante)}`;
-      restEl.style.color = restante >= 0 ? "var(--accent-green)" : "var(--accent-red)";
-
-      document.getElementById('presTagIngresos').innerText = `$${format(totalIngresos)}`;
-      document.getElementById('presTagGastos').innerText = `$${format(totalGastos)}`;
-
-      let pctGasto = totalIngresos > 0 ? Math.round((totalGastos / totalIngresos) * 100) : 0;
-      document.getElementById('presPctEjecucion').innerText = `${pctGasto}% comprometido`;
-      
-      const barra = document.getElementById('presBarraEjecucion');
-      barra.style.width = `${Math.min(pctGasto, 100)}%`;
-      barra.style.background = pctGasto > 90 ? "var(--accent-red)" : (pctGasto > 70 ? "var(--accent-gold)" : "var(--accent-green)");
-
-      // Render ingresos
-      const listaIngresos = document.getElementById('presListaIngresos');
-      listaIngresos.innerHTML = "";
-      Object.entries(dataMes.ingresos).forEach(([k, v]) => {
-        let pct = totalIngresos > 0 ? Math.round((v / totalIngresos) * 100) : 0;
-        listaIngresos.innerHTML += `
-          <div class="row-item">
-            <div class="row-left">
-              <div class="badge" style="background: rgba(0, 255, 136, 0.15); color: var(--accent-green);">IN</div>
-              <div class="row-info"><h4>${k.toUpperCase()}</h4><span>${pct}% del ingreso</span></div>
-            </div>
-            <div class="row-right"><div class="val" style="color: var(--accent-green);">$${format(v)}</div></div>
-          </div>
-        `;
-      });
-
-      // Render gastos
-      const listaGastos = document.getElementById('presListaGastos');
-      listaGastos.innerHTML = "";
-      const coloresGastos = ["#A855F7", "#3A86FF", "#FFD700", "#00FF88", "#FF3366", "#F97316"];
-      Object.entries(dataMes.gastos).forEach(([k, v], idx) => {
-        let pctGastoItem = totalGastos > 0 ? ((v / totalGastos) * 100).toFixed(1) : 0;
-        let color = coloresGastos[idx % coloresGastos.length];
-        listaGastos.innerHTML += `
-          <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <div style="font-size:11.5px; font-weight:700;">${k.toUpperCase()}</div>
-                <div style="font-size:9.5px; color:var(--text-sub);">${pctGastoItem}% del total de gastos</div>
-              </div>
-              <div style="font-size:13px; font-weight:800;">$${format(v)}</div>
-            </div>
-            <div class="progress-bg"><div class="progress-fill" style="width: ${Math.min(pctGastoItem, 100)}%; background: ${color};"></div></div>
-          </div>
-        `;
-      });
-    }
-
-    // RENDER BALANCE GENERAL
     function renderBalance() {
       let mesFiltro = parseInt(document.getElementById("selectMes").value, 10);
       let añoFiltro = parseInt(document.getElementById("selectAño").value, 10);
@@ -927,7 +1059,6 @@
       tabla.innerHTML = htmlHead + htmlBody;
     }
 
-    // RENDER CALENDARIO
     function renderCalendario() {
       let mesFiltro = parseInt(document.getElementById("selectMes").value, 10);
       let añoFiltro = parseInt(document.getElementById("selectAño").value, 10);
@@ -950,7 +1081,7 @@
           let tipo = (row.Tipo || row.tipo || "").toLowerCase().trim();
           if (tipo !== "gasto") return;
           let fecha = parseFecha(row.Fecha || row.date || row.dia);
-          if (!fecha || fecha.getMonth() !== mesFiltro || fecha.getFullYear() !== añoFilltro && fecha.getFullYear() !== añoFiltro) return;
+          if (!fecha || fecha.getMonth() !== mesFiltro || fecha.getFullYear() !== añoFiltro) return;
           let diaGasto = fecha.getDate();
           let monto = limpiarMonto(row.Monto || row.monto || "0");
           gastosPorDia[diaGasto] = (gastosPorDia[diaGasto] || 0) + monto;
@@ -1003,7 +1134,6 @@
       calGrid.innerHTML = html;
     }
 
-    // RENDER NUBANK
     function renderNubank() {
       let mesFiltro = parseInt(document.getElementById("selectMes").value, 10);
       let añoFiltro = parseInt(document.getElementById("selectAño").value, 10);
@@ -1071,6 +1201,7 @@
     }
 
     inicializarFiltros();
+    renderMatrizSemestral();
     cargarDatos();
   </script>
 </body>
