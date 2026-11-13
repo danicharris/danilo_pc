@@ -228,11 +228,9 @@
       margin-top: 3px;
     }
 
-    /* ==========================================
-       ADAPTACIÓN MÓVIL / ESCRITORIO PARA MATRIZ
-       ========================================== */
+    /* Tabla Escritorio */
     .desktop-table-container {
-      display: none; /* Oculto por defecto en celulares */
+      display: none;
       width: 100%;
       overflow-x: auto;
       border: 1px solid var(--border-color);
@@ -266,7 +264,7 @@
     .matrix-table th { text-align: right; font-size: 10px; font-weight: 800; color: var(--text-sub); background: rgba(255,255,255,0.06); }
     .matrix-table td { text-align: right; font-variant-numeric: tabular-nums; }
 
-    /* VISTA TARJETAS MÓVIL (Se ve excelente en celulares) */
+    /* Tarjetas Móvil */
     .mobile-cards-container {
       display: flex;
       flex-direction: column;
@@ -295,6 +293,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
     }
     .sem-grid-meses {
       display: grid;
@@ -316,8 +315,23 @@
       text-transform: uppercase;
     }
 
-    /* Inputs limpios */
-    .cell-input-num {
+    /* Inputs formateados */
+    .cell-input-text {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid transparent;
+      border-radius: 5px;
+      color: var(--text-main);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 6px;
+      outline: none;
+      width: 100%;
+    }
+    .cell-input-text:focus {
+      border-color: rgba(58, 134, 255, 0.5);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .cell-input-formatted {
       width: 100%;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid transparent;
@@ -329,24 +343,9 @@
       padding: 5px 6px;
       outline: none;
     }
-    .cell-input-num:focus {
+    .cell-input-formatted:focus {
       border-color: var(--accent-blue);
       background: rgba(58, 134, 255, 0.18);
-    }
-    .cell-input-name {
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 5px;
-      color: var(--text-main);
-      font-size: 12px;
-      font-weight: 700;
-      padding: 3px 4px;
-      outline: none;
-      width: 100%;
-    }
-    .cell-input-name:focus {
-      border-color: rgba(58, 134, 255, 0.5);
-      background: rgba(255, 255, 255, 0.08);
     }
 
     .btn-mini-action {
@@ -369,10 +368,8 @@
       padding: 0 4px;
     }
 
-    /* Resto de vistas estándar */
-    .row-item {
-      display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 12px;
-    }
+    /* Vistas secundarias */
+    .row-item { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 12px; }
     .row-left { display: flex; align-items: center; gap: 10px; }
     .badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 10.5px; font-weight: 800; }
     .row-info h4 { font-size: 11.5px; font-weight: 700; color: var(--text-main); }
@@ -448,7 +445,7 @@
       </div>
     </div>
 
-    <!-- PRESUPUESTO SEMESTRAL ADAPTATIVO -->
+    <!-- PRESUPUESTO SEMESTRAL -->
     <div id="presupuestoView" class="view-section">
       <div class="section-block">
         <div class="section-header-row">
@@ -478,10 +475,10 @@
           </div>
         </div>
 
-        <!-- Versión Tarjetas para Celulares -->
+        <!-- Tarjetas Móvil -->
         <div id="mobileCardsContainer" class="mobile-cards-container"></div>
 
-        <!-- Versión Tabla Completa para Computadoras -->
+        <!-- Tabla Escritorio -->
         <div class="desktop-table-container">
           <table class="matrix-table" id="tablaMatrizSemestral"></table>
         </div>
@@ -533,7 +530,7 @@
     const sheetID = "1wVYYrD0tjt-InNRNP5zw-pvNLb5oLZqiwnVnhx2fSJ4";
     const sheetNameDetalle = "Detalle";
     const sheetNameNubank = "Nubank";
-    const STORAGE_KEY_SEMESTRES = "mis_finanzas_semestres_v2";
+    const STORAGE_KEY_SEMESTRES = "mis_finanzas_semestres_v3";
 
     let dataDetalle = [];
     let dataNubank = [];
@@ -605,11 +602,18 @@
       }
     }
 
-    function onCeldaMontoChange(tipo, rowIdx, colIdx, rawVal) {
+    function format(n) { return Math.round(n || 0).toLocaleString("es-CO"); }
+
+    // Manejo de formato numérico al escribir (agrega puntos de miles en vivo)
+    function onCeldaMontoInput(inputEl, tipo, rowIdx, colIdx) {
+      let rawVal = inputEl.value.replace(/\D/g, "");
+      let num = parseInt(rawVal, 10) || 0;
+      
       const key = document.getElementById("selectSemestre").value;
-      const num = parseInt(String(rawVal).replace(/\D/g, ""), 10) || 0;
       semestresData[key][tipo][rowIdx].valores[colIdx] = num;
       guardarSemestres();
+
+      // Mostrar formateado si no tiene el foco activo
       actualizarTotalesEnVivo();
     }
 
@@ -643,18 +647,26 @@
       let totIngPorMes = [0, 0, 0, 0, 0, 0];
       let totGasPorMes = [0, 0, 0, 0, 0, 0];
 
+      // Sumar Ingresos por Fila y por Columna Mensual
       bloque.ingresos.forEach((fila, rIdx) => {
         let sumaFila = 0;
-        fila.valores.forEach((v, cIdx) => { sumaFila += v; totIngPorMes[cIdx] += v; });
+        fila.valores.forEach((v, cIdx) => {
+          sumaFila += v;
+          totIngPorMes[cIdx] += v;
+        });
         const cellTot = document.getElementById(`tot_ing_${rIdx}`);
         if (cellTot) cellTot.innerText = `$${format(sumaFila)}`;
         const cellTotMob = document.getElementById(`tot_ing_mob_${rIdx}`);
         if (cellTotMob) cellTotMob.innerText = `$${format(sumaFila)}`;
       });
 
+      // Sumar Gastos por Fila y por Columna Mensual
       bloque.gastos.forEach((fila, rIdx) => {
         let sumaFila = 0;
-        fila.valores.forEach((v, cIdx) => { sumaFila += v; totGasPorMes[cIdx] += v; });
+        fila.valores.forEach((v, cIdx) => {
+          sumaFila += v;
+          totGasPorMes[cIdx] += v;
+        });
         const cellTot = document.getElementById(`tot_gas_${rIdx}`);
         if (cellTot) cellTot.innerText = `$${format(sumaFila)}`;
         const cellTotMob = document.getElementById(`tot_gas_mob_${rIdx}`);
@@ -664,6 +676,7 @@
       let granTotalIng = 0;
       let granTotalGas = 0;
 
+      // Totales verticales por cada mes (columnas) y Restante mensual
       for (let c = 0; c < 6; c++) {
         granTotalIng += totIngPorMes[c];
         granTotalGas += totGasPorMes[c];
@@ -694,6 +707,7 @@
         elGranRes.style.color = granRestante >= 0 ? "var(--accent-green)" : "var(--accent-red)";
       }
 
+      // Actualizar KPIs de la parte superior
       document.getElementById("semTotalIngresos").innerText = `$${format(granTotalIng)}`;
       document.getElementById("semTotalGastos").innerText = `$${format(granTotalGas)}`;
       const kpiRes = document.getElementById("semTotalRestante");
@@ -705,7 +719,7 @@
       const key = document.getElementById("selectSemestre").value;
       const bloque = semestresData[key];
       
-      // 1. RENDERIZAR VISTA MÓVIL (Tarjetas apiladas)
+      // 1. RENDERIZAR VISTA MÓVIL (Tarjetas)
       const containerMob = document.getElementById("mobileCardsContainer");
       let htmlMob = `
         <div class="sem-group-title" style="color:var(--accent-green);">
@@ -719,8 +733,8 @@
         htmlMob += `
           <div class="sem-card-item">
             <div class="sem-card-header">
-              <input type="text" class="cell-input-name" value="${fila.nombre}" onchange="onCeldaNombreChange('ingresos', ${rIdx}, this.value)">
-              <div style="display:flex; align-items:center; gap:6px;">
+              <input type="text" class="cell-input-text" value="${fila.nombre}" onchange="onCeldaNombreChange('ingresos', ${rIdx}, this.value)">
+              <div style="display:flex; align-items:center; gap:6px; white-space:nowrap;">
                 <span style="font-size:11px; font-weight:800; color:var(--accent-green);" id="tot_ing_mob_${rIdx}">$${format(sumaFila)}</span>
                 <button class="btn-mini-del" onclick="eliminarFilaSemestre('ingresos', ${rIdx})">✕</button>
               </div>
@@ -729,7 +743,10 @@
               ${bloque.meses.map((m, cIdx) => `
                 <div class="sem-mes-cell">
                   <div class="sem-mes-label">${m.substring(0,3)}</div>
-                  <input type="number" class="cell-input-num" value="${fila.valores[cIdx]}" oninput="onCeldaMontoChange('ingresos', ${rIdx}, ${cIdx}, this.value)">
+                  <input type="text" class="cell-input-formatted" value="${format(fila.valores[cIdx])}" 
+                    onfocus="this.value='${fila.valores[cIdx] || ''}'" 
+                    oninput="onCeldaMontoInput(this, 'ingresos', ${rIdx}, ${cIdx})" 
+                    onblur="this.value=format(semestresData['${key}']['ingresos'][${rIdx}].valores[${cIdx}])">
                 </div>
               `).join("")}
             </div>
@@ -749,8 +766,8 @@
         htmlMob += `
           <div class="sem-card-item">
             <div class="sem-card-header">
-              <input type="text" class="cell-input-name" value="${fila.nombre}" onchange="onCeldaNombreChange('gastos', ${rIdx}, this.value)">
-              <div style="display:flex; align-items:center; gap:6px;">
+              <input type="text" class="cell-input-text" value="${fila.nombre}" onchange="onCeldaNombreChange('gastos', ${rIdx}, this.value)">
+              <div style="display:flex; align-items:center; gap:6px; white-space:nowrap;">
                 <span style="font-size:11px; font-weight:800; color:#FF7597;" id="tot_gas_mob_${rIdx}">$${format(sumaFila)}</span>
                 <button class="btn-mini-del" onclick="eliminarFilaSemestre('gastos', ${rIdx})">✕</button>
               </div>
@@ -759,7 +776,10 @@
               ${bloque.meses.map((m, cIdx) => `
                 <div class="sem-mes-cell">
                   <div class="sem-mes-label">${m.substring(0,3)}</div>
-                  <input type="number" class="cell-input-num" value="${fila.valores[cIdx]}" oninput="onCeldaMontoChange('gastos', ${rIdx}, ${cIdx}, this.value)">
+                  <input type="text" class="cell-input-formatted" value="${format(fila.valores[cIdx])}" 
+                    onfocus="this.value='${fila.valores[cIdx] || ''}'" 
+                    oninput="onCeldaMontoInput(this, 'gastos', ${rIdx}, ${cIdx})" 
+                    onblur="this.value=format(semestresData['${key}']['gastos'][${rIdx}].valores[${cIdx}])">
                 </div>
               `).join("")}
             </div>
@@ -768,7 +788,7 @@
       });
       containerMob.innerHTML = htmlMob;
 
-      // 2. RENDERIZAR VISTA ESCRITORIO (Tabla completa)
+      // 2. RENDERIZAR VISTA ESCRITORIO (Tabla)
       const tabla = document.getElementById("tablaMatrizSemestral");
       let htmlDesk = `
         <thead>
@@ -786,9 +806,16 @@
         htmlDesk += `<tr>
           <td>
             <button class="btn-mini-del" onclick="eliminarFilaSemestre('ingresos', ${rIdx})">✕</button>
-            <input type="text" class="cell-input-name" value="${fila.nombre}" onchange="onCeldaNombreChange('ingresos', ${rIdx}, this.value)" style="width:110px;">
+            <input type="text" class="cell-input-text" value="${fila.nombre}" onchange="onCeldaNombreChange('ingresos', ${rIdx}, this.value)" style="width:110px; display:inline-block;">
           </td>
-          ${fila.valores.map((val, cIdx) => `<td><input type="number" class="cell-input-num" value="${val}" oninput="onCeldaMontoChange('ingresos', ${rIdx}, ${cIdx}, this.value)"></td>`).join("")}
+          ${fila.valores.map((val, cIdx) => `
+            <td>
+              <input type="text" class="cell-input-formatted" value="${format(val)}" 
+                onfocus="this.value='${val || ''}'" 
+                oninput="onCeldaMontoInput(this, 'ingresos', ${rIdx}, ${cIdx})" 
+                onblur="this.value=format(semestresData['${key}']['ingresos'][${rIdx}].valores[${cIdx}])">
+            </td>
+          `).join("")}
           <td id="tot_ing_${rIdx}" style="color:var(--accent-green);">$0</td>
         </tr>`;
       });
@@ -806,9 +833,16 @@
         htmlDesk += `<tr>
           <td>
             <button class="btn-mini-del" onclick="eliminarFilaSemestre('gastos', ${rIdx})">✕</button>
-            <input type="text" class="cell-input-name" value="${fila.nombre}" onchange="onCeldaNombreChange('gastos', ${rIdx}, this.value)" style="width:110px;">
+            <input type="text" class="cell-input-text" value="${fila.nombre}" onchange="onCeldaNombreChange('gastos', ${rIdx}, this.value)" style="width:110px; display:inline-block;">
           </td>
-          ${fila.valores.map((val, cIdx) => `<td><input type="number" class="cell-input-num" value="${val}" oninput="onCeldaMontoChange('gastos', ${rIdx}, ${cIdx}, this.value)"></td>`).join("")}
+          ${fila.valores.map((val, cIdx) => `
+            <td>
+              <input type="text" class="cell-input-formatted" value="${format(val)}" 
+                onfocus="this.value='${val || ''}'" 
+                oninput="onCeldaMontoInput(this, 'gastos', ${rIdx}, ${cIdx})" 
+                onblur="this.value=format(semestresData['${key}']['gastos'][${rIdx}].valores[${cIdx}])">
+            </td>
+          `).join("")}
           <td id="tot_gas_${rIdx}">$0</td>
         </tr>`;
       });
@@ -831,7 +865,7 @@
       actualizarTotalesEnVivo();
     }
 
-    // Funciones estándar
+    // Funciones base de la app
     function inicializarFiltros() {
       const hoy = new Date();
       const mesActual = hoy.getMonth();
@@ -914,7 +948,6 @@
       return esNegativo ? -numero : numero;
     }
 
-    function format(n) { return Math.round(n).toLocaleString("es-CO"); }
     function formatK(n) { if (n === 0) return ""; return `${Math.round(n / 1000)}k`; }
 
     function parseFecha(fechaStr) {
