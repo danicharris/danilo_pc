@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Control Financiero Total</title>
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Finanzas">
+  
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0B1325 0%, #050811 100%);
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --border-color: rgba(255, 255, 255, 0.14);
+      --text-main: #FFFFFF;
+      --text-sub: #8E9DAE;
+      --accent-green: #00FF88;
+      --accent-red: #FF3366;
+      --accent-blue: #3A86FF;
+      --accent-gold: #FFD700;
+      --accent-purple: #A855F7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 540px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-bottom: 80px;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .header-title {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-select {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 8px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .filter-select option {
+      background: #0B1325;
+      color: var(--text-main);
+    }
+
+    .refresh-btn {
+      background: rgba(0, 255, 136, 0.12);
+      border: 1px solid rgba(0, 255, 136, 0.4);
+      color: var(--accent-green);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .refresh-btn:active {
+      transform: scale(0.95);
+    }
+
+    .nav-tabs {
+      display: flex;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      padding: 9px 4px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: rgba(255, 255, 255, 0.15);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .view-section {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .view-section.active {
+      display: flex;
+    }
+
+    .section-block {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: var(--accent-blue);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+
+    .total-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+    .total-title {
+      font-size: 11px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .total-amount {
+      font-size: 28px;
+      font-weight: 800;
+      margin: 4px 0;
+    }
+    .total-sub {
+      font-size: 10px;
+      color: var(--text-sub);
+      font-weight: 600;
+    }
+
+    /* Grid de KPIs para Presupuesto */
+    .kpi-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .kpi-mini {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .kpi-mini-label {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .kpi-mini-val {
+      font-size: 13px;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .group-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .row-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .row-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .row-info h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .row-info span {
+      font-size: 10px;
+      color: var(--text-sub);
+    }
+    .row-right {
+      text-align: right;
+    }
+    .row-right .val {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .row-right .sub {
+      font-size: 10px;
+      color: var(--text-sub);
+    }
+
+    .progress-bg {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+
+    .pagado-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 9.5px;
+      font-weight: 800;
+      color: var(--accent-green);
+      background: rgba(0, 255, 136, 0.12);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      padding: 2px 6px;
+      border-radius: 5px;
+      margin-top: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .excedido-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 9.5px;
+      font-weight: 800;
+      color: var(--accent-red);
+      background: rgba(255, 51, 102, 0.12);
+      border: 1px solid rgba(255, 51, 102, 0.35);
+      padding: 2px 6px;
+      border-radius: 5px;
+      margin-top: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .calendar-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .stat-title {
+      font-size: 9.5px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .stat-val {
+      font-size: 15px;
+      font-weight: 800;
+      margin-top: 3px;
+      color: var(--text-main);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .cal-day-header {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-sub);
+      padding: 4px 0;
+    }
+    .cal-cell {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 6px;
+      position: relative;
+    }
+    .cal-cell.empty {
+      background: transparent;
+      border: none;
+    }
+    .cal-cell.has-expense {
+      background: rgba(255, 51, 102, 0.22);
+      border-color: rgba(255, 51, 102, 0.4);
+    }
+    .cal-cell.max-expense {
+      border: 2px solid var(--accent-gold) !important;
+      background: rgba(255, 215, 0, 0.15) !important;
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+    }
+    .cal-cell.today {
+      border-color: var(--accent-green);
+    }
+    .cal-day-num {
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .cal-day-amount {
+      font-size: 9px;
+      font-weight: 700;
+      color: #FF88AA;
+      text-align: right;
+    }
+    .max-badge-tag {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      font-size: 8px;
+      background: var(--accent-gold);
+      color: #000;
+      font-weight: 900;
+      padding: 1px 4px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-sub);
+      font-size: 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 16px;
+      border: 1px dashed var(--border-color);
+    }
+
+    .btn-toggle-tabla {
+      width: 100%;
+      background: rgba(58, 134, 255, 0.12);
+      border: 1px solid rgba(58, 134, 255, 0.4);
+      color: var(--accent-blue);
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.2s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-toggle-tabla:hover {
+      background: rgba(58, 134, 255, 0.25);
+    }
+
+    .tabla-wrapper {
+      display: none;
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.35);
+      margin-top: 6px;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .tabla-detalle {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      text-align: left;
+    }
+
+    .tabla-detalle th {
+      background: #131D35;
+      color: var(--accent-blue);
+      padding: 10px;
+      font-weight: 800;
+      position: sticky;
+      top: 0;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+      z-index: 2;
+    }
+
+    .tabla-detalle td {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .tabla-detalle tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header-bar">
+      <div class="header-title">⚡ MIS FINANZAS</div>
+      <div class="header-actions">
+        <select id="selectMes" class="filter-select" onchange="renderTodo()"></select>
+        <select id="selectAño" class="filter-select" onchange="renderTodo()"></select>
+        <button class="refresh-btn" onclick="cargarDatos()">🔄</button>
+      </div>
+    </div>
+
+    <!-- PESTAÑAS -->
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('balance', this)">Balance</button>
+      <button class="tab-btn" onclick="switchTab('presupuesto', this)">Presupuesto</button>
+      <button class="tab-btn" onclick="switchTab('calendario', this)">Calendario</button>
+      <button class="tab-btn" onclick="switchTab('nubank', this)">Nubank</button>
+    </div>
+
+    <div id="loadingView" class="loading">Sincronizando datos con Google Sheets...</div>
+
+    <!-- VISTA 1: BALANCE -->
+    <div id="balanceView" class="view-section active">
+      <div class="section-block">
+        <div class="section-header-row">
+          <div class="section-title">BALANCE GENERAL</div>
+        </div>
+        <div class="total-card">
+          <div class="total-title">Balance Total</div>
+          <div class="total-amount" id="balTotalNum">$0</div>
+          <div class="total-sub" id="balTotalCuentas">0 CUENTAS ACTIVAS</div>
+        </div>
+        <div id="cuentasContainer" style="display:flex; flex-direction:column; gap:8px;"></div>
+        
+        <button class="btn-toggle-tabla" onclick="toggleTabla('tablaWrapper', this, 'REGISTRO DETALLE')">📊 VER REGISTRO DETALLE</button>
+        <div id="tablaWrapper" class="tabla-wrapper">
+          <table class="tabla-detalle" id="tablaDetalleContent"></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISTA 2: PRESUPUESTO (NUEVA - CONECTADA A FINANZAS Y FINANZAS 2027) -->
+    <div id="presupuestoView" class="view-section">
+      <div class="section-block">
+        <div class="section-header-row">
+          <div class="section-title">PLANIFICACIÓN HOGAR</div>
+          <div style="display:flex; gap:6px;">
+            <select id="selectHojaPresupuesto" class="filter-select" onchange="cambiarHojaPresupuesto()">
+              <option value="Finanzas">2026 (Finanzas)</option>
+              <option value="Finanzas 2027">2027 (Proyección)</option>
+            </select>
+            <select id="selectMesPresupuesto" class="filter-select" onchange="renderPresupuesto()"></select>
+          </div>
+        </div>
+
+        <!-- KPIs Resumen -->
+        <div class="kpi-grid-3">
+          <div class="kpi-mini">
+            <div class="kpi-mini-label">Ingresos</div>
+            <div class="kpi-mini-val" id="presIngresosTotal" style="color: var(--accent-green);">$0</div>
+          </div>
+          <div class="kpi-mini">
+            <div class="kpi-mini-label">Gastos Fijos</div>
+            <div class="kpi-mini-val" id="presGastosTotal" style="color: var(--accent-red);">$0</div>
+          </div>
+          <div class="kpi-mini">
+            <div class="kpi-mini-label">Restante</div>
+            <div class="kpi-mini-val" id="presRestanteTotal" style="color: var(--accent-blue);">$0</div>
+          </div>
+        </div>
+
+        <!-- Barra de Capacidad de Ahorro -->
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:10px; font-weight:700; color:var(--text-sub); text-transform:uppercase;">Compromiso de Ingresos</span>
+            <span id="presPctEjecucion" style="font-size:11px; font-weight:800; color:var(--text-main);">0% gastado</span>
+          </div>
+          <div class="progress-bg" style="height:7px;">
+            <div class="progress-fill" id="presBarraEjecucion" style="width:0%; background: var(--accent-blue);"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:var(--text-sub); margin-top:2px;">
+            <span id="presSubTextoIzq">Ahorro libre: 0%</span>
+            <span id="presSubTextoDer">Periodo: -</span>
+          </div>
+        </div>
+
+        <!-- Bloque Ingresos -->
+        <div class="group-label">
+          <span>💰 Fuentes de Ingreso</span>
+          <span id="presTagIngresos">$0</span>
+        </div>
+        <div id="presListaIngresos" style="display:flex; flex-direction:column; gap:8px;"></div>
+
+        <!-- Bloque Gastos -->
+        <div class="group-label" style="margin-top:8px;">
+          <span>🧾 Distribución de Gastos</span>
+          <span id="presTagGastos">$0</span>
+        </div>
+        <div id="presListaGastos" style="display:flex; flex-direction:column; gap:8px;"></div>
+
+        <button class="btn-toggle-tabla" onclick="toggleTabla('tablaPresupuestoWrapper', this, 'MATRIZ COMPLETA')">📊 VER MATRIZ COMPLETA</button>
+        <div id="tablaPresupuestoWrapper" class="tabla-wrapper">
+          <table class="tabla-detalle" id="tablaPresupuestoContent"></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISTA 3: CALENDARIO -->
+    <div id="calendarioView" class="view-section">
+      <div class="section-block">
+        <div class="section-header-row">
+          <div class="section-title" id="mesTituloCalendario">CALENDARIO MENSUAL</div>
+        </div>
+        
+        <div class="calendar-stats">
+          <div class="stat-card">
+            <div class="stat-title">Total Gastos Mes</div>
+            <div class="stat-val" id="calTotalGastos" style="color: var(--accent-red);">$0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Promedio Diario</div>
+            <div class="stat-val" id="calPromedioDiario">$0</div>
+          </div>
+        </div>
+
+        <div class="card" style="background:transparent; border:none; padding:0;">
+          <div class="calendar-grid" id="calendarGrid">
+            <div class="cal-day-header">L</div><div class="cal-day-header">M</div><div class="cal-day-header">M</div>
+            <div class="cal-day-header">J</div><div class="cal-day-header">V</div><div class="cal-day-header">S</div><div class="cal-day-header">D</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISTA 4: NUBANK -->
+    <div id="nubankView" class="view-section">
+      <div class="section-block">
+        <div class="section-header-row">
+          <div class="section-title">TARJETA NUBANK</div>
+        </div>
+        <div class="total-card">
+          <div class="total-title">Disponible Nubank</div>
+          <div class="total-amount" id="nubankDisponible">$0</div>
+          <div class="total-sub" id="nubankUsado">USADO: $0</div>
+        </div>
+        <div id="sublimitesContainer" style="display:flex; flex-direction:column; gap:8px;"></div>
+        
+        <button class="btn-toggle-tabla" onclick="toggleTabla('tablaNubankWrapper', this, 'REGISTRO NUBANK')">📊 VER REGISTRO NUBANK</button>
+        <div id="tablaNubankWrapper" class="tabla-wrapper">
+          <table class="tabla-detalle" id="tablaNubankContent"></table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // 1. CONFIGURACIÓN DE GOOGLE SHEETS
+    const sheetID = "1wVYYrD0tjt-InNRNP5zw-pvNLb5oLZqiwnVnhx2fSJ4";
+    // Si la tabla "Finance" está en otro archivo de Google Sheets, pega aquí su ID:
+    const sheetIDPresupuesto = "1wVYYrD0tjt-InNRNP5zw-pvNLb5oLZqiwnVnhx2fSJ4"; 
+
+    const sheetNameDetalle = "Detalle";
+    const sheetNameNubank = "Nubank";
+
+    let dataDetalle = [];
+    let dataNubank = [];
+    let dataPresupuestoRaw = [];
+    let presupuestoParseado = { columnas: [], ingresos: [], gastos: [], restante: {} };
+
+    const LIMITE_TOTAL_NUBANK = 2800000;
+
+    const MESES_NOMBRES = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
+    function inicializarFiltros() {
+      const hoy = new Date();
+      const mesActual = hoy.getMonth();
+      const añoActual = hoy.getFullYear();
+
+      const selectMes = document.getElementById("selectMes");
+      const selectAño = document.getElementById("selectAño");
+
+      selectMes.innerHTML = "";
+      MESES_NOMBRES.forEach((m, idx) => {
+        let opt = document.createElement("option");
+        opt.value = idx;
+        opt.innerText = m;
+        if (idx === mesActual) opt.selected = true;
+        selectMes.appendChild(opt);
+      });
+
+      selectAño.innerHTML = "";
+      for (let y = añoActual - 2; y <= añoActual + 3; y++) {
+        let opt = document.createElement("option");
+        opt.value = y;
+        opt.innerText = y;
+        if (y === añoActual) opt.selected = true;
+        selectAño.appendChild(opt);
+      }
+    }
+
+    function switchTab(tab, btnEl) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+      
+      btnEl.classList.add('active');
+      document.getElementById(tab + 'View').classList.add('active');
+    }
+
+    function toggleTabla(wrapperId, btnEl, label) {
+      const wrapper = document.getElementById(wrapperId);
+      if (wrapper.style.display === 'block') {
+        wrapper.style.display = 'none';
+        btnEl.innerText = `📊 VER ${label}`;
+      } else {
+        wrapper.style.display = 'block';
+        btnEl.innerText = `🙈 OCULTAR ${label}`;
+      }
+    }
+
+    // Parser CSV robusto (soporta comillas y comas internas en montos como "$2,000,000")
+    function parseCSVLine(text) {
+      let result = [];
+      let cur = '';
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        let char = text[i];
+        if (char === '"') {
+          if (inQuotes && text[i + 1] === '"') {
+            cur += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === ',' && !inQuotes) {
+          result.push(cur.trim());
+          cur = '';
+        } else {
+          cur += char;
+        }
+      }
+      result.push(cur.trim());
+      return result;
+    }
+
+    function parseCSV(text) {
+      let lines = text.split(/\r?\n/);
+      let result = [];
+      if (lines.length === 0) return result;
+      let headers = parseCSVLine(lines[0]);
+      for (let i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        let currentline = parseCSVLine(lines[i]);
+        let obj = {};
+        for (let j = 0; j < headers.length; j++) {
+          let headerKey = headers[j].trim();
+          obj[headerKey] = currentline[j] !== undefined ? currentline[j].trim() : "";
+        }
+        result.push(obj);
+      }
+      return result;
+    }
+
+    function parseCSVMatrix(text) {
+      return text.split(/\r?\n/).map(line => parseCSVLine(line));
+    }
+
+    function limpiarMonto(valor) {
+      if (valor === null || valor === undefined) return 0;
+      let str = String(valor);
+      let esNegativo = str.includes("-");
+      let soloNumeros = str.replace(/\D/g, "");
+      if (!soloNumeros) return 0;
+      let numero = parseInt(soloNumeros, 10);
+      return esNegativo ? -numero : numero;
+    }
+
+    function format(n) { return Math.round(n).toLocaleString("es-CO"); }
+    function formatK(n) { if (n === 0) return ""; return `${Math.round(n / 1000)}k`; }
+    function normalizarTexto(str) { if (!str) return ""; return String(str).trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
+
+    function parseFecha(fechaStr) {
+      if (!fechaStr) return null;
+      let partes = String(fechaStr).trim().split(/[\/\-]/);
+      if (partes.length === 3) {
+        if (partes[0].length === 4) {
+          return new Date(parseInt(partes[0]), parseInt(partes[1]) - 1, parseInt(partes[2]));
+        } else {
+          return new Date(parseInt(partes[2]), parseInt(partes[1]) - 1, parseInt(partes[0]));
+        }
+      }
+      return null;
+    }
+
+    // Procesar la estructura visual de tus hojas "Finanzas" y "Finanzas 2027"
+    function procesarMatrizPresupuesto(matriz) {
+      let seccionActual = "";
+      let columnasMeses = []; // [{ idx: 2, nombre: "Noviembre" }, ...]
+      let ingresos = [];
+      let gastos = [];
+      let restante = {};
+
+      matriz.forEach(fila => {
+        // Ignorar columna A vacía buscando la primera celda con texto útil
+        let celdasLimpias = fila.map(c => c.trim());
+        let textoFila = celdasLimpias.join(" ").toUpperCase();
+
+        if (!textoFila) return;
+
+        if (celdasLimpias.includes("INGRESOS")) {
+          seccionActual = "INGRESOS";
+          return;
+        }
+        if (celdasLimpias.includes("GASTOS")) {
+          seccionActual = "GASTOS";
+          return;
+        }
+        if (celdasLimpias.includes("RESTANTE")) {
+          seccionActual = "RESTANTE";
+          return;
+        }
+
+        // Detectar fila de encabezados ("Mes", "Noviembre", "Diciembre", "TOTAL"...)
+        let idxMesHeader = celdasLimpias.findIndex(c => normalizarTexto(c) === "mes");
+        if (idxMesHeader !== -1) {
+          if (columnasMeses.length === 0) {
+            for (let c = idxMesHeader + 1; c < celdasLimpias.length; c++) {
+              if (celdasLimpias[c] !== "") {
+                columnasMeses.push({ idx: c, nombre: celdasLimpias[c] });
+              }
+            }
+          }
+          return;
+        }
+
+        // Extraer conceptos según la sección activa
+        if (columnasMeses.length > 0 && seccionActual) {
+          let idxNombre = celdasLimpias.findIndex(c => c !== "");
+          if (idxNombre === -1) return;
+          let concepto = celdasLimpias[idxNombre];
+          if (normalizarTexto(concepto) === "total" && seccionActual !== "RESTANTE") return;
+
+          let valores = {};
+          columnasMeses.forEach(col => {
+            valores[col.nombre] = limpiarMonto(celdasLimpias[col.idx]);
+          });
+
+          if (seccionActual === "INGRESOS") {
+            ingresos.push({ concepto, valores });
+          } else if (seccionActual === "GASTOS") {
+            gastos.push({ concepto, valores });
+          } else if (seccionActual === "RESTANTE" && normalizarTexto(concepto) === "total") {
+            restante = valores;
+          }
+        }
+      });
+
+      presupuestoParseado = { columnas: columnasMeses, ingresos, gastos, restante };
+
+      // Poblar selector de meses de la pestaña Presupuesto
+      const selectMesPres = document.getElementById("selectMesPresupuesto");
+      selectMesPres.innerHTML = "";
+      columnasMeses.forEach(col => {
+        let opt = document.createElement("option");
+        opt.value = col.nombre;
+        opt.innerText = col.nombre.charAt(0).toUpperCase() + col.nombre.slice(1);
+        selectMesPres.appendChild(opt);
+      });
+    }
+
+    async function cargarHojaPresupuesto() {
+      const hoja = document.getElementById("selectHojaPresupuesto").value;
+      const timeStamp = new Date().getTime();
+      const url = `https://docs.google.com/spreadsheets/d/${sheetIDPresupuesto}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(hoja)}&t=${timeStamp}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`No se pudo cargar la hoja ${hoja}`);
+      const text = await res.text();
+      dataPresupuestoRaw = parseCSVMatrix(text);
+      procesarMatrizPresupuesto(dataPresupuestoRaw);
+    }
+
+    async function cambiarHojaPresupuesto() {
+      document.getElementById('loadingView').style.display = 'block';
+      try {
+        await cargarHojaPresupuesto();
+        renderPresupuesto();
+        document.getElementById('loadingView').style.display = 'none';
+      } catch (e) {
+        document.getElementById('loadingView').innerHTML = `⚠️ Error cargando hoja de presupuesto: ${e.message}`;
+      }
+    }
+
+    async function cargarDatos() {
+      document.getElementById('loadingView').style.display = 'block';
+      try {
+        let timeStamp = new Date().getTime();
+        let urlDetalle = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetNameDetalle)}&t=${timeStamp}`;
+        let urlNubank = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetNameNubank)}&t=${timeStamp}`;
+
+        let [resDetalle, resNubank] = await Promise.all([
+          fetch(urlDetalle),
+          fetch(urlNubank),
+          cargarHojaPresupuesto()
+        ]);
+
+        if (!resDetalle.ok || !resNubank.ok) throw new Error("Error al descargar las hojas.");
+
+        let textDetalle = await resDetalle.text();
+        let textNubank = await resNubank.text();
+
+        dataDetalle = parseCSV(textDetalle);
+        dataNubank = parseCSV(textNubank);
+
+        document.getElementById('loadingView').style.display = 'none';
+        renderTodo();
+      } catch (e) {
+        console.error(e);
+        document.getElementById('loadingView').innerHTML = `⚠️ Error cargando Google Sheets.<br><span style="font-size:10px; color:#FF3366;">${e.message}</span>`;
+      }
+    }
+
+    function renderTodo() {
+      renderBalance();
+      renderTablaDetalle();
+      renderPresupuesto();
+      renderCalendario();
+      renderNubank();
+      renderTablaNubank();
+    }
+
+    // RENDER PRESUPUESTO
+    function renderPresupuesto() {
+      const colSeleccionada = document.getElementById("selectMesPresupuesto").value;
+      if (!colSeleccionada || presupuestoParseado.columnas.length === 0) return;
+
+      let totalIngresos = 0;
+      presupuestoParseado.ingresos.forEach(item => {
+        totalIngresos += (item.valores[colSeleccionada] || 0);
+      });
+
+      let totalGastos = 0;
+      presupuestoParseado.gastos.forEach(item => {
+        totalGastos += (item.valores[colSeleccionada] || 0);
+      });
+
+      let restante = presupuestoParseado.restante[colSeleccionada] !== undefined 
+        ? presupuestoParseado.restante[colSeleccionada] 
+        : (totalIngresos - totalGastos);
+
+      document.getElementById('presIngresosTotal').innerText = `$${format(totalIngresos)}`;
+      document.getElementById('presGastosTotal').innerText = `$${format(totalGastos)}`;
+      
+      const restEl = document.getElementById('presRestanteTotal');
+      restEl.innerText = `$${format(restante)}`;
+      restEl.style.color = restante > 0 ? "var(--accent-green)" : (restante === 0 ? "var(--accent-gold)" : "var(--accent-red)");
+
+      document.getElementById('presTagIngresos').innerText = `$${format(totalIngresos)}`;
+      document.getElementById('presTagGastos').innerText = `$${format(totalGastos)}`;
+
+      // Barra de compromiso
+      let pctGasto = totalIngresos > 0 ? Math.round((totalGastos / totalIngresos) * 100) : 0;
+      let pctAhorro = Math.max(0, 100 - pctGasto);
+      document.getElementById('presPctEjecucion').innerText = `${pctGasto}% comprometido`;
+      
+      const barra = document.getElementById('presBarraEjecucion');
+      barra.style.width = `${Math.min(pctGasto, 100)}%`;
+      barra.style.background = pctGasto > 90 ? "var(--accent-red)" : (pctGasto > 70 ? "var(--accent-gold)" : "var(--accent-green)");
+
+      document.getElementById('presSubTextoIzq').innerText = `Libre / Ahorro: ${pctAhorro}%`;
+      document.getElementById('presSubTextoDer').innerText = `Periodo: ${colSeleccionada.toUpperCase()}`;
+
+      // Render Ingresos
+      const listaIngresos = document.getElementById('presListaIngresos');
+      listaIngresos.innerHTML = "";
+      presupuestoParseado.ingresos.forEach(item => {
+        let val = item.valores[colSeleccionada] || 0;
+        let pct = totalIngresos > 0 ? Math.round((val / totalIngresos) * 100) : 0;
+        let iniciales = item.concepto.replace(/nomina/i, "").trim().substring(0, 2).toUpperCase() || "IN";
+
+        listaIngresos.innerHTML += `
+          <div class="row-item">
+            <div class="row-left">
+              <div class="badge" style="background: rgba(0, 255, 136, 0.15); color: var(--accent-green); border: 1px solid rgba(0,255,136,0.3);">${iniciales}</div>
+              <div class="row-info">
+                <h4>${item.concepto.toUpperCase()}</h4>
+                <span>Aporte: ${pct}% del ingreso</span>
+              </div>
+            </div>
+            <div class="row-right">
+              <div class="val" style="color: var(--accent-green);">$${format(val)}</div>
+            </div>
+          </div>
+        `;
+      });
+
+      // Render Gastos con barras proporcionales
+      const listaGastos = document.getElementById('presListaGastos');
+      listaGastos.innerHTML = "";
+      const coloresGastos = ["#A855F7", "#3A86FF", "#FFD700", "#00FF88", "#FF3366", "#F97316"];
+
+      presupuestoParseado.gastos.forEach((item, idx) => {
+        let val = item.valores[colSeleccionada] || 0;
+        let pctSobreGasto = totalGastos > 0 ? ((val / totalGastos) * 100).toFixed(1) : 0;
+        let pctSobreIngreso = totalIngresos > 0 ? ((val / totalIngresos) * 100).toFixed(1) : 0;
+        let color = coloresGastos[idx % coloresGastos.length];
+
+        listaGastos.innerHTML += `
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-size:11.5px; font-weight:700; color:var(--text-main);">${item.concepto.toUpperCase()}</div>
+                <div style="font-size:9.5px; color:var(--text-sub);">${pctSobreGasto}% de gastos · ${pctSobreIngreso}% del ingreso</div>
+              </div>
+              <div style="font-size:13px; font-weight:800; color:var(--text-main);">$${format(val)}</div>
+            </div>
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: ${Math.min(pctSobreGasto, 100)}%; background: ${color};"></div>
+            </div>
+          </div>
+        `;
+      });
+
+      // Render Tabla Matriz Completa
+      renderTablaPresupuesto();
+    }
+
+    function renderTablaPresupuesto() {
+      const tabla = document.getElementById('tablaPresupuestoContent');
+      if (!dataPresupuestoRaw || dataPresupuestoRaw.length === 0) return;
+
+      let html = "<tbody>";
+      dataPresupuestoRaw.forEach(fila => {
+        let celdas = fila.slice(1); // Omitir columna A vacía
+        if (celdas.join("").trim() === "") return;
+
+        let esTituloSeccion = ["INGRESOS", "GASTOS", "RESTANTE"].includes(celdas[0]?.toUpperCase());
+        let esHeaderMes = normalizarTexto(celdas[0]) === "mes";
+        let esTotal = normalizarTexto(celdas[0]) === "total";
+
+        let rowStyle = "";
+        if (esTituloSeccion) rowStyle = "background: rgba(58, 134, 255, 0.18); color: var(--accent-blue); font-weight: 800;";
+        else if (esHeaderMes) rowStyle = "background: rgba(255, 255, 255, 0.08); font-weight: 800;";
+        else if (esTotal) rowStyle = "background: rgba(0, 255, 136, 0.08); font-weight: 800; color: var(--accent-green);";
+
+        html += `<tr style="${rowStyle}">` + celdas.map(c => `<td>${c}</td>`).join('') + "</tr>";
+      });
+      html += "</tbody>";
+      tabla.innerHTML = html;
+    }
+
+    // RENDER BALANCE
+    function renderBalance() {
+      let mesFiltro = parseInt(document.getElementById("selectMes").value, 10);
+      let añoFiltro = parseInt(document.getElementById("selectAño").value, 10);
+
+      let cuentasRaw = { "Bancolombia": 0, "Nequi": 0, "Efectivo": 0 };
+      if (Array.isArray(dataDetalle)) {
+        dataDetalle.forEach(row => {
+          let fecha = parseFecha(row.Fecha || row.date || row.dia);
+          if (!fecha || fecha.getMonth() !== mesFiltro || fecha.getFullYear() !== añoFiltro) return;
+
+          let tipo = (row.Tipo || row.tipo || row.TIPO || "").toLowerCase().trim();
+          let monto = limpiarMonto(row.Monto || row.monto || row.MONTO || "0");
+          let cuenta = row.Cuenta || row.cuenta || row.CUENTA || "Efectivo";
+          if (!cuentasRaw.hasOwnProperty(cuenta)) cuentasRaw[cuenta] = 0;
+          if (tipo === "ingreso") cuentasRaw[cuenta] += monto;
+          if (tipo === "gasto" || tipo === "ahorro") cuentasRaw[cuenta] -= monto;
+        });
+      }
+
+      let balanceNum = Object.values(cuentasRaw).reduce((a, b) => a + b, 0);
+      document.getElementById('balTotalNum').innerText = `$${format(balanceNum)}`;
+      document.getElementById('balTotalNum').style.color = balanceNum >= 0 ? "#00FF88" : "#FF3366";
+      document.getElementById('balTotalCuentas').innerText = `${Object.keys(cuentasRaw).length} CUENTAS ACTIVAS`;
+
+      let cuentasConfig = [
+        { nombre: "Bancolombia", tipo: "Cuenta de ahorros", val: cuentasRaw["Bancolombia"] || 0, inicial: "BC", bg: "#FDDA24", color: "#000" },
+        { nombre: "Nequi", tipo: "Cartera digital", val: cuentasRaw["Nequi"] || 0, inicial: "NQ", bg: "#E00075", color: "#FFF" },
+        { nombre: "Efectivo", tipo: "Físico", val: cuentasRaw["Efectivo"] || 0, inicial: "EF", bg: "#00C853", color: "#FFF" }
+      ];
+
+      let cContainer = document.getElementById('cuentasContainer');
+      cContainer.innerHTML = "";
+      cuentasConfig.forEach(c => {
+        let pct = balanceNum > 0 ? ((c.val / balanceNum) * 100).toFixed(0) + "%" : "0%";
+        cContainer.innerHTML += `
+          <div class="row-item">
+            <div class="row-left">
+              <div class="badge" style="background:${c.bg}; color:${c.color};">${c.inicial}</div>
+              <div class="row-info">
+                <h4>${c.nombre.toUpperCase()}</h4>
+                <span>${c.tipo.toUpperCase()}</span>
+              </div>
+            </div>
+            <div class="row-right">
+              <div class="val">$${format(c.val)}</div>
+              <div class="sub">${pct}</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function renderTablaDetalle() {
+      const tabla = document.getElementById('tablaDetalleContent');
+      if (!Array.isArray(dataDetalle) || dataDetalle.length === 0) {
+        tabla.innerHTML = "<tr><td style='padding:12px; text-align:center;'>No hay registros disponibles.</td></tr>";
+        return;
+      }
+
+      let cols = Object.keys(dataDetalle[0]);
+      let htmlHead = "<thead><tr>" + cols.map(c => `<th>${c.toUpperCase()}</th>`).join('') + "</tr></thead>";
+      let htmlBody = "<tbody>";
+      dataDetalle.forEach(row => {
+        htmlBody += "<tr>" + cols.map(c => `<td>${row[c] || ''}</td>`).join('') + "</tr>";
+      });
+      htmlBody += "</tbody>";
+      tabla.innerHTML = htmlHead + htmlBody;
+    }
+
+    function renderTablaNubank() {
+      const tabla = document.getElementById('tablaNubankContent');
+      if (!Array.isArray(dataNubank) || dataNubank.length === 0) {
+        tabla.innerHTML = "<tr><td style='padding:12px; text-align:center;'>No hay registros disponibles.</td></tr>";
+        return;
+      }
+
+      let cols = Object.keys(dataNubank[0]);
+      let htmlHead = "<thead><tr>" + cols.map(c => `<th>${c.toUpperCase()}</th>`).join('') + "</tr></thead>";
+      let htmlBody = "<tbody>";
+      dataNubank.forEach(row => {
+        htmlBody += "<tr>" + cols.map(c => `<td>${row[c] || ''}</td>`).join('') + "</tr>";
+      });
+      htmlBody += "</tbody>";
+      tabla.innerHTML = htmlHead + htmlBody;
+    }
+
+    // RENDER CALENDARIO
+    function renderCalendario() {
+      let mesFiltro = parseInt(document.getElementById("selectMes").value, 10);
+      let añoFiltro = parseInt(document.getElementById("selectAño").value, 10);
+
+      let ahora = new Date();
+      let esMesActual = (ahora.getMonth() === mesFiltro && ahora.getFullYear() === añoFiltro);
+
+      let primerDiaMes = new Date(añoFiltro, mesFiltro, 1);
+      let ultimoDiaMes = new Date(añoFiltro, mesFiltro + 1, 0);
+      let totalDiasMes = ultimoDiaMes.getDate();
+      let nombreMes = MESES_NOMBRES[mesFiltro].toUpperCase();
+
+      document.getElementById('mesTituloCalendario').innerText = `CALENDARIO • ${nombreMes} ${añoFiltro}`;
+
+      let gastosPorDia = {};
+      for (let d = 1; d <= totalDiasMes; d++) gastosPorDia[d] = 0;
+
+      let sumaTotalGastosMes = 0;
+      let diasConGastoCount = 0;
+      let maxGastoValor = -1;
+      let diaMaxGasto = null;
+
+      if (Array.isArray(dataDetalle)) {
+        dataDetalle.forEach(row => {
+          let tipo = (row.Tipo || row.tipo || "").toLowerCase().trim();
+          if (tipo !== "gasto") return;
+          let fecha = parseFecha(row.Fecha || row.date || row.dia);
+          if (!fecha || fecha.getMonth() !== mesFiltro || fecha.getFullYear() !== añoFiltro) return;
+          let diaGasto = fecha.getDate();
+          let monto = limpiarMonto(row.Monto || row.monto || "0");
+          gastosPorDia[diaGasto] = (gastosPorDia[diaGasto] || 0) + monto;
+        });
+      }
+
+      for (let d = 1; d <= totalDiasMes; d++) {
+        let g = gastosPorDia[d];
+        if (g > 0) {
+          sumaTotalGastosMes += g;
+          diasConGastoCount++;
+          if (g > maxGastoValor) {
+            maxGastoValor = g;
+            diaMaxGasto = d;
+          }
+        }
+      }
+
+      let promedioDiario = diasConGastoCount > 0 ? Math.round(sumaTotalGastosMes / diasConGastoCount) : 0;
+
+      document.getElementById('calTotalGastos').innerText = `$${format(sumaTotalGastosMes)}`;
+      document.getElementById('calPromedioDiario').innerText = `$${format(promedioDiario)}`;
+
+      let diaSemanaInicio = primerDiaMes.getDay();
+      let offsetInicio = diaSemanaInicio === 0 ? 6 : diaSemanaInicio - 1;
+      let calGrid = document.getElementById('calendarGrid');
+      
+      let html = `
+        <div class="cal-day-header">L</div><div class="cal-day-header">M</div><div class="cal-day-header">M</div>
+        <div class="cal-day-header">J</div><div class="cal-day-header">V</div><div class="cal-day-header">S</div><div class="cal-day-header">D</div>
+      `;
+
+      for (let i = 0; i < offsetInicio; i++) {
+        html += `<div class="cal-cell empty"></div>`;
+      }
+
+      for (let dia = 1; dia <= totalDiasMes; dia++) {
+        let gastoDia = gastosPorDia[dia] || 0;
+        let esHoy = esMesActual && (dia === ahora.getDate());
+        let esMaximo = (dia === diaMaxGasto && maxGastoValor > 0);
+
+        let clase = "cal-cell";
+        if (esMaximo) clase += " max-expense";
+        else if (gastoDia > 0) clase += " has-expense";
+        if (esHoy) clase += " today";
+
+        let badgeMaxHtml = esMaximo ? `<div class="max-badge-tag">🔥 MÁS GASTO</div>` : "";
+
+        html += `
+          <div class="${clase}">
+            ${badgeMaxHtml}
+            <span class="cal-day-num" style="color:${esHoy ? '#00FF88' : '#FFF'}">${dia}</span>
+            <span class="cal-day-amount">${formatK(gastoDia)}</span>
+          </div>
+        `;
+      }
+      calGrid.innerHTML = html;
+    }
+
+    // RENDER NUBANK
+    function renderNubank() {
+      let mesFiltro = parseInt(document.getElementById("selectMes").value, 10);
+      let añoFiltro = parseInt(document.getElementById("selectAño").value, 10);
+
+      let limitesFijosSinAdicional = 1000000 + 120000 + 79798 + 43000;
+      let limiteAdicionalDinamico = LIMITE_TOTAL_NUBANK - limitesFijosSinAdicional;
+
+      const sublimitesConfigDinamico = {
+        "Mercado": 1000000,
+        "Moto": 120000,
+        "Claro": 79798,
+        "Levotiroxina": 43000,
+        "Adicional": limiteAdicionalDinamico
+      };
+
+      let gastoTotal = 0;
+      let gastosPorTipo = {};
+      Object.keys(sublimitesConfigDinamico).forEach(t => gastosPorTipo[t] = 0);
+
+      if (Array.isArray(dataNubank)) {
+        dataNubank.forEach(row => {
+          let fecha = parseFecha(row.Fecha || row.date || row.dia);
+          if (fecha && (fecha.getMonth() !== mesFiltro || fecha.getFullYear() !== añoFiltro)) return;
+
+          let monto = limpiarMonto(row.Monto ?? row.monto ?? row.MONTO ?? 0);
+          gastoTotal += monto;
+          let tipoRaw = row.Tipo ?? row.tipo ?? row.TIPO ?? "";
+          let tipoNorm = normalizarTexto(tipoRaw);
+
+          Object.keys(sublimitesConfigDinamico).forEach(cfg => {
+            if (normalizarTexto(cfg) === tipoNorm) {
+              gastosPorTipo[cfg] += monto;
+            }
+          });
+        });
+      }
+
+      let disponible = LIMITE_TOTAL_NUBANK - gastoTotal;
+      let dispEl = document.getElementById('nubankDisponible');
+      dispEl.innerText = `$${format(disponible)}`;
+      dispEl.style.color = disponible >= 0 ? "#00FF88" : "#FF3366";
+      document.getElementById('nubankUsado').innerText = `USADO: $${format(gastoTotal)}`;
+
+      let subContainer = document.getElementById('sublimitesContainer');
+      subContainer.innerHTML = "";
+      Object.keys(sublimitesConfigDinamico).forEach(nombre => {
+        let limite = sublimitesConfigDinamico[nombre];
+        let gastado = gastosPorTipo[nombre] || 0;
+        let falta = limite - gastado;
+        
+        let estadoTxt = "";
+        let barraHtml = "";
+
+        if (gastado > limite) {
+          let exceso = gastado - limite;
+          estadoTxt = `<span style="font-size:9.5px; font-weight:700; color:var(--accent-red);">Excedido: $${format(exceso)}</span>`;
+          barraHtml = `
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: 100%; background: var(--accent-red);"></div>
+            </div>
+            <div class="excedido-badge">⚠️ EXCEDIDO EN $${format(exceso)}</div>`;
+        } else if (falta === 0) {
+          estadoTxt = "";
+          barraHtml = `
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: 100%; background: var(--accent-green);"></div>
+            </div>
+            <div class="pagado-badge">✨ COMPLETADO</div>`;
+        } else {
+          estadoTxt = `<span style="font-size:9.5px; font-weight:700; color:var(--accent-green);">Quedan: $${format(falta)}</span>`;
+          let pct = limite > 0 ? (gastado / limite) * 100 : 0;
+          barraHtml = `
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: ${Math.min(pct, 100)}%; background: var(--accent-green);"></div>
+            </div>`;
+        }
+
+        subContainer.innerHTML += `
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-size:10.5px; font-weight:700;">${nombre.toUpperCase()}</div>
+                <div style="font-size:9px; color:var(--text-sub);">Límite: $${format(limite)} | Gastado: $${format(gastado)}</div>
+              </div>
+              <div style="text-align:right;">
+                ${estadoTxt}
+              </div>
+            </div>
+            ${barraHtml}
+          </div>
+        `;
+      });
+    }
+
+    // Inicialización
+    inicializarFiltros();
+    cargarDatos();
+  </script>
+</body>
+</html>
