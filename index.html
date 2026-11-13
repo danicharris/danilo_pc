@@ -66,9 +66,6 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .header-actions {
@@ -103,11 +100,6 @@
       font-size: 11px;
       font-weight: 700;
       cursor: pointer;
-      transition: transform 0.15s ease;
-    }
-
-    .refresh-btn:active {
-      transform: scale(0.95);
     }
 
     .nav-tabs {
@@ -212,7 +204,6 @@
       font-weight: 600;
     }
 
-    /* Grid de KPIs para Presupuesto */
     .kpi-grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -233,7 +224,6 @@
       font-weight: 700;
       color: var(--text-sub);
       text-transform: uppercase;
-      letter-spacing: 0.4px;
     }
     .kpi-mini-val {
       font-size: 13px;
@@ -293,10 +283,6 @@
       font-size: 13px;
       font-weight: 700;
     }
-    .row-right .sub {
-      font-size: 10px;
-      color: var(--text-sub);
-    }
 
     .progress-bg {
       width: 100%;
@@ -324,9 +310,7 @@
       padding: 2px 6px;
       border-radius: 5px;
       margin-top: 3px;
-      letter-spacing: 0.5px;
     }
-
     .excedido-badge {
       display: inline-flex;
       align-items: center;
@@ -339,7 +323,6 @@
       padding: 2px 6px;
       border-radius: 5px;
       margin-top: 3px;
-      letter-spacing: 0.5px;
     }
 
     .calendar-stats {
@@ -365,7 +348,6 @@
       font-size: 15px;
       font-weight: 800;
       margin-top: 3px;
-      color: var(--text-main);
     }
 
     .calendar-grid {
@@ -391,44 +373,13 @@
       padding: 6px;
       position: relative;
     }
-    .cal-cell.empty {
-      background: transparent;
-      border: none;
-    }
-    .cal-cell.has-expense {
-      background: rgba(255, 51, 102, 0.22);
-      border-color: rgba(255, 51, 102, 0.4);
-    }
-    .cal-cell.max-expense {
-      border: 2px solid var(--accent-gold) !important;
-      background: rgba(255, 215, 0, 0.15) !important;
-      box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
-    }
-    .cal-cell.today {
-      border-color: var(--accent-green);
-    }
-    .cal-day-num {
-      font-size: 11px;
-      font-weight: 700;
-    }
-    .cal-day-amount {
-      font-size: 9px;
-      font-weight: 700;
-      color: #FF88AA;
-      text-align: right;
-    }
-    .max-badge-tag {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      font-size: 8px;
-      background: var(--accent-gold);
-      color: #000;
-      font-weight: 900;
-      padding: 1px 4px;
-      border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
+    .cal-cell.empty { background: transparent; border: none; }
+    .cal-cell.has-expense { background: rgba(255, 51, 102, 0.22); border-color: rgba(255, 51, 102, 0.4); }
+    .cal-cell.max-expense { border: 2px solid var(--accent-gold) !important; background: rgba(255, 215, 0, 0.15) !important; }
+    .cal-cell.today { border-color: var(--accent-green); }
+    .cal-day-num { font-size: 11px; font-weight: 700; }
+    .cal-day-amount { font-size: 9px; font-weight: 700; color: #FF88AA; text-align: right; }
+    .max-badge-tag { position: absolute; top: -5px; right: -5px; font-size: 8px; background: var(--accent-gold); color: #000; font-weight: 900; padding: 1px 4px; border-radius: 4px; }
 
     .loading {
       text-align: center;
@@ -451,12 +402,6 @@
       font-weight: 800;
       cursor: pointer;
       margin-top: 6px;
-      transition: all 0.2s ease;
-      letter-spacing: 0.5px;
-    }
-
-    .btn-toggle-tabla:hover {
-      background: rgba(58, 134, 255, 0.25);
     }
 
     .tabla-wrapper {
@@ -470,14 +415,12 @@
       max-height: 380px;
       overflow-y: auto;
     }
-
     .tabla-detalle {
       width: 100%;
       border-collapse: collapse;
       font-size: 11px;
       text-align: left;
     }
-
     .tabla-detalle th {
       background: #131D35;
       color: var(--accent-blue);
@@ -487,25 +430,18 @@
       top: 0;
       border-bottom: 1px solid var(--border-color);
       white-space: nowrap;
-      z-index: 2;
     }
-
     .tabla-detalle td {
       padding: 8px 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      color: var(--text-main);
       white-space: nowrap;
     }
-
-    .tabla-detalle tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
+    .tabla-detalle tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- HEADER -->
     <div class="header-bar">
       <div class="header-title">⚡ MIS FINANZAS</div>
       <div class="header-actions">
@@ -515,7 +451,6 @@
       </div>
     </div>
 
-    <!-- PESTAÑAS -->
     <div class="nav-tabs">
       <button class="tab-btn active" onclick="switchTab('balance', this)">Balance</button>
       <button class="tab-btn" onclick="switchTab('presupuesto', this)">Presupuesto</button>
@@ -523,14 +458,12 @@
       <button class="tab-btn" onclick="switchTab('nubank', this)">Nubank</button>
     </div>
 
-    <div id="loadingView" class="loading">Sincronizando datos con Google Sheets...</div>
+    <div id="loadingView" class="loading">Cargando datos directos de Google Sheets...</div>
 
-    <!-- VISTA 1: BALANCE -->
+    <!-- VISTA 1: BALANCE GENERAL -->
     <div id="balanceView" class="view-section active">
       <div class="section-block">
-        <div class="section-header-row">
-          <div class="section-title">BALANCE GENERAL</div>
-        </div>
+        <div class="section-header-row"><div class="section-title">BALANCE GENERAL</div></div>
         <div class="total-card">
           <div class="total-title">Balance Total</div>
           <div class="total-amount" id="balTotalNum">$0</div>
@@ -545,28 +478,27 @@
       </div>
     </div>
 
-    <!-- VISTA 2: PRESUPUESTO (NUEVA - CONECTADA A FINANZAS Y FINANZAS 2027) -->
+    <!-- VISTA 2: PRESUPUESTO MANUAL -->
     <div id="presupuestoView" class="view-section">
       <div class="section-block">
         <div class="section-header-row">
-          <div class="section-title">PLANIFICACIÓN HOGAR</div>
+          <div class="section-title">PLANIFICACIÓN MANUAL</div>
           <div style="display:flex; gap:6px;">
-            <select id="selectHojaPresupuesto" class="filter-select" onchange="cambiarHojaPresupuesto()">
-              <option value="Finanzas">2026 (Finanzas)</option>
-              <option value="Finanzas 2027">2027 (Proyección)</option>
+            <select id="selectAnioPresupuesto" class="filter-select" onchange="renderPresupuestoManual()">
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
             </select>
-            <select id="selectMesPresupuesto" class="filter-select" onchange="renderPresupuesto()"></select>
+            <select id="selectMesPresupuesto" class="filter-select" onchange="renderPresupuestoManual()"></select>
           </div>
         </div>
 
-        <!-- KPIs Resumen -->
         <div class="kpi-grid-3">
           <div class="kpi-mini">
             <div class="kpi-mini-label">Ingresos</div>
             <div class="kpi-mini-val" id="presIngresosTotal" style="color: var(--accent-green);">$0</div>
           </div>
           <div class="kpi-mini">
-            <div class="kpi-mini-label">Gastos Fijos</div>
+            <div class="kpi-mini-label">Gastos</div>
             <div class="kpi-mini-val" id="presGastosTotal" style="color: var(--accent-red);">$0</div>
           </div>
           <div class="kpi-mini">
@@ -575,49 +507,34 @@
           </div>
         </div>
 
-        <!-- Barra de Capacidad de Ahorro -->
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="font-size:10px; font-weight:700; color:var(--text-sub); text-transform:uppercase;">Compromiso de Ingresos</span>
-            <span id="presPctEjecucion" style="font-size:11px; font-weight:800; color:var(--text-main);">0% gastado</span>
+            <span id="presPctEjecucion" style="font-size:11px; font-weight:800;">0% gastado</span>
           </div>
           <div class="progress-bg" style="height:7px;">
             <div class="progress-fill" id="presBarraEjecucion" style="width:0%; background: var(--accent-blue);"></div>
           </div>
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:var(--text-sub); margin-top:2px;">
-            <span id="presSubTextoIzq">Ahorro libre: 0%</span>
-            <span id="presSubTextoDer">Periodo: -</span>
-          </div>
         </div>
 
-        <!-- Bloque Ingresos -->
         <div class="group-label">
-          <span>💰 Fuentes de Ingreso</span>
+          <span>💰 Ingresos</span>
           <span id="presTagIngresos">$0</span>
         </div>
         <div id="presListaIngresos" style="display:flex; flex-direction:column; gap:8px;"></div>
 
-        <!-- Bloque Gastos -->
-        <div class="group-label" style="margin-top:8px;">
-          <span>🧾 Distribución de Gastos</span>
+        <div class="group-label" style="margin-top:6px;">
+          <span>🧾 Gastos Fijos</span>
           <span id="presTagGastos">$0</span>
         </div>
         <div id="presListaGastos" style="display:flex; flex-direction:column; gap:8px;"></div>
-
-        <button class="btn-toggle-tabla" onclick="toggleTabla('tablaPresupuestoWrapper', this, 'MATRIZ COMPLETA')">📊 VER MATRIZ COMPLETA</button>
-        <div id="tablaPresupuestoWrapper" class="tabla-wrapper">
-          <table class="tabla-detalle" id="tablaPresupuestoContent"></table>
-        </div>
       </div>
     </div>
 
     <!-- VISTA 3: CALENDARIO -->
     <div id="calendarioView" class="view-section">
       <div class="section-block">
-        <div class="section-header-row">
-          <div class="section-title" id="mesTituloCalendario">CALENDARIO MENSUAL</div>
-        </div>
-        
+        <div class="section-header-row"><div class="section-title" id="mesTituloCalendario">CALENDARIO MENSUAL</div></div>
         <div class="calendar-stats">
           <div class="stat-card">
             <div class="stat-title">Total Gastos Mes</div>
@@ -628,12 +545,9 @@
             <div class="stat-val" id="calPromedioDiario">$0</div>
           </div>
         </div>
-
-        <div class="card" style="background:transparent; border:none; padding:0;">
-          <div class="calendar-grid" id="calendarGrid">
-            <div class="cal-day-header">L</div><div class="cal-day-header">M</div><div class="cal-day-header">M</div>
-            <div class="cal-day-header">J</div><div class="cal-day-header">V</div><div class="cal-day-header">S</div><div class="cal-day-header">D</div>
-          </div>
+        <div class="calendar-grid" id="calendarGrid">
+          <div class="cal-day-header">L</div><div class="cal-day-header">M</div><div class="cal-day-header">M</div>
+          <div class="cal-day-header">J</div><div class="cal-day-header">V</div><div class="cal-day-header">S</div><div class="cal-day-header">D</div>
         </div>
       </div>
     </div>
@@ -641,9 +555,7 @@
     <!-- VISTA 4: NUBANK -->
     <div id="nubankView" class="view-section">
       <div class="section-block">
-        <div class="section-header-row">
-          <div class="section-title">TARJETA NUBANK</div>
-        </div>
+        <div class="section-header-row"><div class="section-title">TARJETA NUBANK</div></div>
         <div class="total-card">
           <div class="total-title">Disponible Nubank</div>
           <div class="total-amount" id="nubankDisponible">$0</div>
@@ -661,25 +573,60 @@
   </div>
 
   <script>
-    // 1. CONFIGURACIÓN DE GOOGLE SHEETS
     const sheetID = "1wVYYrD0tjt-InNRNP5zw-pvNLb5oLZqiwnVnhx2fSJ4";
-    // Si la tabla "Finance" está en otro archivo de Google Sheets, pega aquí su ID:
-    const sheetIDPresupuesto = "1wVYYrD0tjt-InNRNP5zw-pvNLb5oLZqiwnVnhx2fSJ4"; 
-
     const sheetNameDetalle = "Detalle";
     const sheetNameNubank = "Nubank";
 
     let dataDetalle = [];
     let dataNubank = [];
-    let dataPresupuestoRaw = [];
-    let presupuestoParseado = { columnas: [], ingresos: [], gastos: [], restante: {} };
-
     const LIMITE_TOTAL_NUBANK = 2800000;
 
     const MESES_NOMBRES = [
       "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
       "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
     ];
+
+    // ==========================================
+    // BASE DE DATOS DE PRESUPUESTO MANUAL (EDITABLE AQUÍ)
+    // ==========================================
+    const PRESUPUESTO_MANUAL = {
+      2026: {
+        "Noviembre": {
+          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 4086000 },
+          gastos: { "Nubank": 2072097, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000, "Bancolombia": 2077687 }
+        },
+        "Diciembre": {
+          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
+          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 550000, "Eliana": 580000, "Bancolombia": 434650 }
+        }
+      },
+      2027: {
+        "Enero": {
+          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
+          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
+        },
+        "Febrero": {
+          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
+          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
+        },
+        "Marzo": {
+          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
+          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
+        },
+        "Abril": {
+          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
+          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
+        },
+        "Mayo": {
+          ingresos: { "Nomina Eliana": 2000000, "Nomina Danilo": 3686000 },
+          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
+        },
+        "Junio": {
+          ingresos: { "Nomina Eliana": 3000000, "Nomina Danilo": 5686000 },
+          gastos: { "Nubank": 1242798, "Cuidado Maddi": 150000, "Seguro Moto": 56216, "Danilo": 850000, "Eliana": 880000 }
+        }
+      }
+    };
 
     function inicializarFiltros() {
       const hoy = new Date();
@@ -699,19 +646,41 @@
       });
 
       selectAño.innerHTML = "";
-      for (let y = añoActual - 2; y <= añoActual + 3; y++) {
+      for (let y = 2025; y <= 2028; y++) {
         let opt = document.createElement("option");
         opt.value = y;
         opt.innerText = y;
         if (y === añoActual) opt.selected = true;
         selectAño.appendChild(opt);
       }
+
+      // Inicializar selectores de presupuesto manual
+      const selAnioPres = document.getElementById("selectAnioPresupuesto");
+      selAnioPres.value = añoActual >= 2027 ? "2027" : "2026";
+      actualizarMesesPresupuesto();
     }
+
+    function actualizarMesesPresupuesto() {
+      const anio = document.getElementById("selectAnioPresupuesto").value;
+      const selectMesPres = document.getElementById("selectMesPresupuesto");
+      selectMesPres.innerHTML = "";
+      
+      if (PRESUPUESTO_MANUAL[anio]) {
+        Object.keys(PRESUPUESTO_MANUAL[anio]).forEach(mes => {
+          let opt = document.createElement("option");
+          opt.value = mes;
+          opt.innerText = mes;
+          selectMesPres.appendChild(opt);
+        });
+      }
+      renderPresupuestoManual();
+    }
+
+    document.getElementById("selectAnioPresupuesto").addEventListener("change", actualizarMesesPresupuesto);
 
     function switchTab(tab, btnEl) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
-      
       btnEl.classList.add('active');
       document.getElementById(tab + 'View').classList.add('active');
     }
@@ -727,26 +696,13 @@
       }
     }
 
-    // Parser CSV robusto (soporta comillas y comas internas en montos como "$2,000,000")
     function parseCSVLine(text) {
-      let result = [];
-      let cur = '';
-      let inQuotes = false;
+      let result = []; let cur = ''; let inQuotes = false;
       for (let i = 0; i < text.length; i++) {
         let char = text[i];
-        if (char === '"') {
-          if (inQuotes && text[i + 1] === '"') {
-            cur += '"';
-            i++;
-          } else {
-            inQuotes = !inQuotes;
-          }
-        } else if (char === ',' && !inQuotes) {
-          result.push(cur.trim());
-          cur = '';
-        } else {
-          cur += char;
-        }
+        if (char === '"') { inQuotes = !inQuotes; }
+        else if (char === ',' && !inQuotes) { result.push(cur.trim()); cur = ''; }
+        else { cur += char; }
       }
       result.push(cur.trim());
       return result;
@@ -762,20 +718,15 @@
         let currentline = parseCSVLine(lines[i]);
         let obj = {};
         for (let j = 0; j < headers.length; j++) {
-          let headerKey = headers[j].trim();
-          obj[headerKey] = currentline[j] !== undefined ? currentline[j].trim() : "";
+          obj[headers[j].trim()] = currentline[j] !== undefined ? currentline[j].trim() : "";
         }
         result.push(obj);
       }
       return result;
     }
 
-    function parseCSVMatrix(text) {
-      return text.split(/\r?\n/).map(line => parseCSVLine(line));
-    }
-
     function limpiarMonto(valor) {
-      if (valor === null || valor === undefined) return 0;
+      if (!valor) return 0;
       let str = String(valor);
       let esNegativo = str.includes("-");
       let soloNumeros = str.replace(/\D/g, "");
@@ -786,117 +737,15 @@
 
     function format(n) { return Math.round(n).toLocaleString("es-CO"); }
     function formatK(n) { if (n === 0) return ""; return `${Math.round(n / 1000)}k`; }
-    function normalizarTexto(str) { if (!str) return ""; return String(str).trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
 
     function parseFecha(fechaStr) {
       if (!fechaStr) return null;
       let partes = String(fechaStr).trim().split(/[\/\-]/);
       if (partes.length === 3) {
-        if (partes[0].length === 4) {
-          return new Date(parseInt(partes[0]), parseInt(partes[1]) - 1, parseInt(partes[2]));
-        } else {
-          return new Date(parseInt(partes[2]), parseInt(partes[1]) - 1, parseInt(partes[0]));
-        }
+        if (partes[0].length === 4) return new Date(parseInt(partes[0]), parseInt(partes[1]) - 1, parseInt(partes[2]));
+        return new Date(parseInt(partes[2]), parseInt(partes[1]) - 1, parseInt(partes[0]));
       }
       return null;
-    }
-
-    // Procesar la estructura visual de tus hojas "Finanzas" y "Finanzas 2027"
-    function procesarMatrizPresupuesto(matriz) {
-      let seccionActual = "";
-      let columnasMeses = []; // [{ idx: 2, nombre: "Noviembre" }, ...]
-      let ingresos = [];
-      let gastos = [];
-      let restante = {};
-
-      matriz.forEach(fila => {
-        // Ignorar columna A vacía buscando la primera celda con texto útil
-        let celdasLimpias = fila.map(c => c.trim());
-        let textoFila = celdasLimpias.join(" ").toUpperCase();
-
-        if (!textoFila) return;
-
-        if (celdasLimpias.includes("INGRESOS")) {
-          seccionActual = "INGRESOS";
-          return;
-        }
-        if (celdasLimpias.includes("GASTOS")) {
-          seccionActual = "GASTOS";
-          return;
-        }
-        if (celdasLimpias.includes("RESTANTE")) {
-          seccionActual = "RESTANTE";
-          return;
-        }
-
-        // Detectar fila de encabezados ("Mes", "Noviembre", "Diciembre", "TOTAL"...)
-        let idxMesHeader = celdasLimpias.findIndex(c => normalizarTexto(c) === "mes");
-        if (idxMesHeader !== -1) {
-          if (columnasMeses.length === 0) {
-            for (let c = idxMesHeader + 1; c < celdasLimpias.length; c++) {
-              if (celdasLimpias[c] !== "") {
-                columnasMeses.push({ idx: c, nombre: celdasLimpias[c] });
-              }
-            }
-          }
-          return;
-        }
-
-        // Extraer conceptos según la sección activa
-        if (columnasMeses.length > 0 && seccionActual) {
-          let idxNombre = celdasLimpias.findIndex(c => c !== "");
-          if (idxNombre === -1) return;
-          let concepto = celdasLimpias[idxNombre];
-          if (normalizarTexto(concepto) === "total" && seccionActual !== "RESTANTE") return;
-
-          let valores = {};
-          columnasMeses.forEach(col => {
-            valores[col.nombre] = limpiarMonto(celdasLimpias[col.idx]);
-          });
-
-          if (seccionActual === "INGRESOS") {
-            ingresos.push({ concepto, valores });
-          } else if (seccionActual === "GASTOS") {
-            gastos.push({ concepto, valores });
-          } else if (seccionActual === "RESTANTE" && normalizarTexto(concepto) === "total") {
-            restante = valores;
-          }
-        }
-      });
-
-      presupuestoParseado = { columnas: columnasMeses, ingresos, gastos, restante };
-
-      // Poblar selector de meses de la pestaña Presupuesto
-      const selectMesPres = document.getElementById("selectMesPresupuesto");
-      selectMesPres.innerHTML = "";
-      columnasMeses.forEach(col => {
-        let opt = document.createElement("option");
-        opt.value = col.nombre;
-        opt.innerText = col.nombre.charAt(0).toUpperCase() + col.nombre.slice(1);
-        selectMesPres.appendChild(opt);
-      });
-    }
-
-    async function cargarHojaPresupuesto() {
-      const hoja = document.getElementById("selectHojaPresupuesto").value;
-      const timeStamp = new Date().getTime();
-      const url = `https://docs.google.com/spreadsheets/d/${sheetIDPresupuesto}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(hoja)}&t=${timeStamp}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`No se pudo cargar la hoja ${hoja}`);
-      const text = await res.text();
-      dataPresupuestoRaw = parseCSVMatrix(text);
-      procesarMatrizPresupuesto(dataPresupuestoRaw);
-    }
-
-    async function cambiarHojaPresupuesto() {
-      document.getElementById('loadingView').style.display = 'block';
-      try {
-        await cargarHojaPresupuesto();
-        renderPresupuesto();
-        document.getElementById('loadingView').style.display = 'none';
-      } catch (e) {
-        document.getElementById('loadingView').innerHTML = `⚠️ Error cargando hoja de presupuesto: ${e.message}`;
-      }
     }
 
     async function cargarDatos() {
@@ -906,158 +755,101 @@
         let urlDetalle = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetNameDetalle)}&t=${timeStamp}`;
         let urlNubank = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetNameNubank)}&t=${timeStamp}`;
 
-        let [resDetalle, resNubank] = await Promise.all([
-          fetch(urlDetalle),
-          fetch(urlNubank),
-          cargarHojaPresupuesto()
-        ]);
+        let [resDetalle, resNubank] = await Promise.all([fetch(urlDetalle), fetch(urlNubank)]);
+        if (!resDetalle.ok || !resNubank.ok) throw new Error("Error al descargar hojas transaccionales.");
 
-        if (!resDetalle.ok || !resNubank.ok) throw new Error("Error al descargar las hojas.");
-
-        let textDetalle = await resDetalle.text();
-        let textNubank = await resNubank.text();
-
-        dataDetalle = parseCSV(textDetalle);
-        dataNubank = parseCSV(textNubank);
+        dataDetalle = parseCSV(await resDetalle.text());
+        dataNubank = parseCSV(await resNubank.text());
 
         document.getElementById('loadingView').style.display = 'none';
         renderTodo();
       } catch (e) {
         console.error(e);
-        document.getElementById('loadingView').innerHTML = `⚠️ Error cargando Google Sheets.<br><span style="font-size:10px; color:#FF3366;">${e.message}</span>`;
+        document.getElementById('loadingView').innerHTML = `⚠️ Error cargando Sheets.<br><span style="font-size:10px; color:#FF3366;">${e.message}</span>`;
       }
     }
 
     function renderTodo() {
       renderBalance();
       renderTablaDetalle();
-      renderPresupuesto();
+      renderPresupuestoManual();
       renderCalendario();
       renderNubank();
       renderTablaNubank();
     }
 
-    // RENDER PRESUPUESTO
-    function renderPresupuesto() {
-      const colSeleccionada = document.getElementById("selectMesPresupuesto").value;
-      if (!colSeleccionada || presupuestoParseado.columnas.length === 0) return;
+    // RENDER PRESUPUESTO MANUAL
+    function renderPresupuestoManual() {
+      const anio = document.getElementById("selectAnioPresupuesto").value;
+      const mes = document.getElementById("selectMesPresupuesto").value;
+      if (!PRESUPUESTO_MANUAL[anio] || !PRESUPUESTO_MANUAL[anio][mes]) return;
+
+      const dataMes = PRESUPUESTO_MANUAL[anio][mes];
 
       let totalIngresos = 0;
-      presupuestoParseado.ingresos.forEach(item => {
-        totalIngresos += (item.valores[colSeleccionada] || 0);
-      });
+      Object.values(dataMes.ingresos).forEach(v => totalIngresos += v);
 
       let totalGastos = 0;
-      presupuestoParseado.gastos.forEach(item => {
-        totalGastos += (item.valores[colSeleccionada] || 0);
-      });
+      Object.values(dataMes.gastos).forEach(v => totalGastos += v);
 
-      let restante = presupuestoParseado.restante[colSeleccionada] !== undefined 
-        ? presupuestoParseado.restante[colSeleccionada] 
-        : (totalIngresos - totalGastos);
+      let restante = totalIngresos - totalGastos;
 
       document.getElementById('presIngresosTotal').innerText = `$${format(totalIngresos)}`;
       document.getElementById('presGastosTotal').innerText = `$${format(totalGastos)}`;
       
       const restEl = document.getElementById('presRestanteTotal');
       restEl.innerText = `$${format(restante)}`;
-      restEl.style.color = restante > 0 ? "var(--accent-green)" : (restante === 0 ? "var(--accent-gold)" : "var(--accent-red)");
+      restEl.style.color = restante >= 0 ? "var(--accent-green)" : "var(--accent-red)";
 
       document.getElementById('presTagIngresos').innerText = `$${format(totalIngresos)}`;
       document.getElementById('presTagGastos').innerText = `$${format(totalGastos)}`;
 
-      // Barra de compromiso
       let pctGasto = totalIngresos > 0 ? Math.round((totalGastos / totalIngresos) * 100) : 0;
-      let pctAhorro = Math.max(0, 100 - pctGasto);
       document.getElementById('presPctEjecucion').innerText = `${pctGasto}% comprometido`;
       
       const barra = document.getElementById('presBarraEjecucion');
       barra.style.width = `${Math.min(pctGasto, 100)}%`;
       barra.style.background = pctGasto > 90 ? "var(--accent-red)" : (pctGasto > 70 ? "var(--accent-gold)" : "var(--accent-green)");
 
-      document.getElementById('presSubTextoIzq').innerText = `Libre / Ahorro: ${pctAhorro}%`;
-      document.getElementById('presSubTextoDer').innerText = `Periodo: ${colSeleccionada.toUpperCase()}`;
-
-      // Render Ingresos
+      // Render ingresos
       const listaIngresos = document.getElementById('presListaIngresos');
       listaIngresos.innerHTML = "";
-      presupuestoParseado.ingresos.forEach(item => {
-        let val = item.valores[colSeleccionada] || 0;
-        let pct = totalIngresos > 0 ? Math.round((val / totalIngresos) * 100) : 0;
-        let iniciales = item.concepto.replace(/nomina/i, "").trim().substring(0, 2).toUpperCase() || "IN";
-
+      Object.entries(dataMes.ingresos).forEach(([k, v]) => {
+        let pct = totalIngresos > 0 ? Math.round((v / totalIngresos) * 100) : 0;
         listaIngresos.innerHTML += `
           <div class="row-item">
             <div class="row-left">
-              <div class="badge" style="background: rgba(0, 255, 136, 0.15); color: var(--accent-green); border: 1px solid rgba(0,255,136,0.3);">${iniciales}</div>
-              <div class="row-info">
-                <h4>${item.concepto.toUpperCase()}</h4>
-                <span>Aporte: ${pct}% del ingreso</span>
-              </div>
+              <div class="badge" style="background: rgba(0, 255, 136, 0.15); color: var(--accent-green);">IN</div>
+              <div class="row-info"><h4>${k.toUpperCase()}</h4><span>${pct}% del ingreso</span></div>
             </div>
-            <div class="row-right">
-              <div class="val" style="color: var(--accent-green);">$${format(val)}</div>
-            </div>
+            <div class="row-right"><div class="val" style="color: var(--accent-green);">$${format(v)}</div></div>
           </div>
         `;
       });
 
-      // Render Gastos con barras proporcionales
+      // Render gastos
       const listaGastos = document.getElementById('presListaGastos');
       listaGastos.innerHTML = "";
       const coloresGastos = ["#A855F7", "#3A86FF", "#FFD700", "#00FF88", "#FF3366", "#F97316"];
-
-      presupuestoParseado.gastos.forEach((item, idx) => {
-        let val = item.valores[colSeleccionada] || 0;
-        let pctSobreGasto = totalGastos > 0 ? ((val / totalGastos) * 100).toFixed(1) : 0;
-        let pctSobreIngreso = totalIngresos > 0 ? ((val / totalIngresos) * 100).toFixed(1) : 0;
+      Object.entries(dataMes.gastos).forEach(([k, v], idx) => {
+        let pctGastoItem = totalGastos > 0 ? ((v / totalGastos) * 100).toFixed(1) : 0;
         let color = coloresGastos[idx % coloresGastos.length];
-
         listaGastos.innerHTML += `
           <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <div>
-                <div style="font-size:11.5px; font-weight:700; color:var(--text-main);">${item.concepto.toUpperCase()}</div>
-                <div style="font-size:9.5px; color:var(--text-sub);">${pctSobreGasto}% de gastos · ${pctSobreIngreso}% del ingreso</div>
+                <div style="font-size:11.5px; font-weight:700;">${k.toUpperCase()}</div>
+                <div style="font-size:9.5px; color:var(--text-sub);">${pctGastoItem}% del total de gastos</div>
               </div>
-              <div style="font-size:13px; font-weight:800; color:var(--text-main);">$${format(val)}</div>
+              <div style="font-size:13px; font-weight:800;">$${format(v)}</div>
             </div>
-            <div class="progress-bg">
-              <div class="progress-fill" style="width: ${Math.min(pctSobreGasto, 100)}%; background: ${color};"></div>
-            </div>
+            <div class="progress-bg"><div class="progress-fill" style="width: ${Math.min(pctGastoItem, 100)}%; background: ${color};"></div></div>
           </div>
         `;
       });
-
-      // Render Tabla Matriz Completa
-      renderTablaPresupuesto();
     }
 
-    function renderTablaPresupuesto() {
-      const tabla = document.getElementById('tablaPresupuestoContent');
-      if (!dataPresupuestoRaw || dataPresupuestoRaw.length === 0) return;
-
-      let html = "<tbody>";
-      dataPresupuestoRaw.forEach(fila => {
-        let celdas = fila.slice(1); // Omitir columna A vacía
-        if (celdas.join("").trim() === "") return;
-
-        let esTituloSeccion = ["INGRESOS", "GASTOS", "RESTANTE"].includes(celdas[0]?.toUpperCase());
-        let esHeaderMes = normalizarTexto(celdas[0]) === "mes";
-        let esTotal = normalizarTexto(celdas[0]) === "total";
-
-        let rowStyle = "";
-        if (esTituloSeccion) rowStyle = "background: rgba(58, 134, 255, 0.18); color: var(--accent-blue); font-weight: 800;";
-        else if (esHeaderMes) rowStyle = "background: rgba(255, 255, 255, 0.08); font-weight: 800;";
-        else if (esTotal) rowStyle = "background: rgba(0, 255, 136, 0.08); font-weight: 800; color: var(--accent-green);";
-
-        html += `<tr style="${rowStyle}">` + celdas.map(c => `<td>${c}</td>`).join('') + "</tr>";
-      });
-      html += "</tbody>";
-      tabla.innerHTML = html;
-    }
-
-    // RENDER BALANCE
+    // RENDER BALANCE GENERAL
     function renderBalance() {
       let mesFiltro = parseInt(document.getElementById("selectMes").value, 10);
       let añoFiltro = parseInt(document.getElementById("selectAño").value, 10);
@@ -1067,10 +859,9 @@
         dataDetalle.forEach(row => {
           let fecha = parseFecha(row.Fecha || row.date || row.dia);
           if (!fecha || fecha.getMonth() !== mesFiltro || fecha.getFullYear() !== añoFiltro) return;
-
-          let tipo = (row.Tipo || row.tipo || row.TIPO || "").toLowerCase().trim();
-          let monto = limpiarMonto(row.Monto || row.monto || row.MONTO || "0");
-          let cuenta = row.Cuenta || row.cuenta || row.CUENTA || "Efectivo";
+          let tipo = (row.Tipo || row.tipo || "").toLowerCase().trim();
+          let monto = limpiarMonto(row.Monto || row.monto || "0");
+          let cuenta = row.Cuenta || row.cuenta || "Efectivo";
           if (!cuentasRaw.hasOwnProperty(cuenta)) cuentasRaw[cuenta] = 0;
           if (tipo === "ingreso") cuentasRaw[cuenta] += monto;
           if (tipo === "gasto" || tipo === "ahorro") cuentasRaw[cuenta] -= monto;
@@ -1096,15 +887,9 @@
           <div class="row-item">
             <div class="row-left">
               <div class="badge" style="background:${c.bg}; color:${c.color};">${c.inicial}</div>
-              <div class="row-info">
-                <h4>${c.nombre.toUpperCase()}</h4>
-                <span>${c.tipo.toUpperCase()}</span>
-              </div>
+              <div class="row-info"><h4>${c.nombre.toUpperCase()}</h4><span>${c.tipo.toUpperCase()}</span></div>
             </div>
-            <div class="row-right">
-              <div class="val">$${format(c.val)}</div>
-              <div class="sub">${pct}</div>
-            </div>
+            <div class="row-right"><div class="val">$${format(c.val)}</div><div class="sub" style="font-size:10px; color:var(--text-sub);">${pct}</div></div>
           </div>
         `;
       });
@@ -1113,10 +898,9 @@
     function renderTablaDetalle() {
       const tabla = document.getElementById('tablaDetalleContent');
       if (!Array.isArray(dataDetalle) || dataDetalle.length === 0) {
-        tabla.innerHTML = "<tr><td style='padding:12px; text-align:center;'>No hay registros disponibles.</td></tr>";
+        tabla.innerHTML = "<tr><td style='padding:12px; text-align:center;'>No hay registros.</td></tr>";
         return;
       }
-
       let cols = Object.keys(dataDetalle[0]);
       let htmlHead = "<thead><tr>" + cols.map(c => `<th>${c.toUpperCase()}</th>`).join('') + "</tr></thead>";
       let htmlBody = "<tbody>";
@@ -1130,10 +914,9 @@
     function renderTablaNubank() {
       const tabla = document.getElementById('tablaNubankContent');
       if (!Array.isArray(dataNubank) || dataNubank.length === 0) {
-        tabla.innerHTML = "<tr><td style='padding:12px; text-align:center;'>No hay registros disponibles.</td></tr>";
+        tabla.innerHTML = "<tr><td style='padding:12px; text-align:center;'>No hay registros.</td></tr>";
         return;
       }
-
       let cols = Object.keys(dataNubank[0]);
       let htmlHead = "<thead><tr>" + cols.map(c => `<th>${c.toUpperCase()}</th>`).join('') + "</tr></thead>";
       let htmlBody = "<tbody>";
@@ -1155,24 +938,19 @@
       let primerDiaMes = new Date(añoFiltro, mesFiltro, 1);
       let ultimoDiaMes = new Date(añoFiltro, mesFiltro + 1, 0);
       let totalDiasMes = ultimoDiaMes.getDate();
-      let nombreMes = MESES_NOMBRES[mesFiltro].toUpperCase();
-
-      document.getElementById('mesTituloCalendario').innerText = `CALENDARIO • ${nombreMes} ${añoFiltro}`;
+      document.getElementById('mesTituloCalendario').innerText = `CALENDARIO • ${MESES_NOMBRES[mesFiltro].toUpperCase()} ${añoFiltro}`;
 
       let gastosPorDia = {};
       for (let d = 1; d <= totalDiasMes; d++) gastosPorDia[d] = 0;
 
-      let sumaTotalGastosMes = 0;
-      let diasConGastoCount = 0;
-      let maxGastoValor = -1;
-      let diaMaxGasto = null;
+      let sumaTotalGastosMes = 0; let diasConGastoCount = 0; let maxGastoValor = -1; let diaMaxGasto = null;
 
       if (Array.isArray(dataDetalle)) {
         dataDetalle.forEach(row => {
           let tipo = (row.Tipo || row.tipo || "").toLowerCase().trim();
           if (tipo !== "gasto") return;
           let fecha = parseFecha(row.Fecha || row.date || row.dia);
-          if (!fecha || fecha.getMonth() !== mesFiltro || fecha.getFullYear() !== añoFiltro) return;
+          if (!fecha || fecha.getMonth() !== mesFiltro || fecha.getFullYear() !== añoFilltro && fecha.getFullYear() !== añoFiltro) return;
           let diaGasto = fecha.getDate();
           let monto = limpiarMonto(row.Monto || row.monto || "0");
           gastosPorDia[diaGasto] = (gastosPorDia[diaGasto] || 0) + monto;
@@ -1184,15 +962,11 @@
         if (g > 0) {
           sumaTotalGastosMes += g;
           diasConGastoCount++;
-          if (g > maxGastoValor) {
-            maxGastoValor = g;
-            diaMaxGasto = d;
-          }
+          if (g > maxGastoValor) { maxGastoValor = g; diaMaxGasto = d; }
         }
       }
 
       let promedioDiario = diasConGastoCount > 0 ? Math.round(sumaTotalGastosMes / diasConGastoCount) : 0;
-
       document.getElementById('calTotalGastos').innerText = `$${format(sumaTotalGastosMes)}`;
       document.getElementById('calPromedioDiario').innerText = `$${format(promedioDiario)}`;
 
@@ -1205,9 +979,7 @@
         <div class="cal-day-header">J</div><div class="cal-day-header">V</div><div class="cal-day-header">S</div><div class="cal-day-header">D</div>
       `;
 
-      for (let i = 0; i < offsetInicio; i++) {
-        html += `<div class="cal-cell empty"></div>`;
-      }
+      for (let i = 0; i < offsetInicio; i++) html += `<div class="cal-cell empty"></div>`;
 
       for (let dia = 1; dia <= totalDiasMes; dia++) {
         let gastoDia = gastosPorDia[dia] || 0;
@@ -1220,7 +992,6 @@
         if (esHoy) clase += " today";
 
         let badgeMaxHtml = esMaximo ? `<div class="max-badge-tag">🔥 MÁS GASTO</div>` : "";
-
         html += `
           <div class="${clase}">
             ${badgeMaxHtml}
@@ -1239,13 +1010,8 @@
 
       let limitesFijosSinAdicional = 1000000 + 120000 + 79798 + 43000;
       let limiteAdicionalDinamico = LIMITE_TOTAL_NUBANK - limitesFijosSinAdicional;
-
       const sublimitesConfigDinamico = {
-        "Mercado": 1000000,
-        "Moto": 120000,
-        "Claro": 79798,
-        "Levotiroxina": 43000,
-        "Adicional": limiteAdicionalDinamico
+        "Mercado": 1000000, "Moto": 120000, "Claro": 79798, "Levotiroxina": 43000, "Adicional": limiteAdicionalDinamico
       };
 
       let gastoTotal = 0;
@@ -1256,16 +1022,11 @@
         dataNubank.forEach(row => {
           let fecha = parseFecha(row.Fecha || row.date || row.dia);
           if (fecha && (fecha.getMonth() !== mesFiltro || fecha.getFullYear() !== añoFiltro)) return;
-
-          let monto = limpiarMonto(row.Monto ?? row.monto ?? row.MONTO ?? 0);
+          let monto = limpiarMonto(row.Monto ?? row.monto ?? 0);
           gastoTotal += monto;
-          let tipoRaw = row.Tipo ?? row.tipo ?? row.TIPO ?? "";
-          let tipoNorm = normalizarTexto(tipoRaw);
-
+          let tipoNorm = (row.Tipo ?? row.tipo ?? "").trim().toLowerCase();
           Object.keys(sublimitesConfigDinamico).forEach(cfg => {
-            if (normalizarTexto(cfg) === tipoNorm) {
-              gastosPorTipo[cfg] += monto;
-            }
+            if (cfg.toLowerCase() === tipoNorm) gastosPorTipo[cfg] += monto;
           });
         });
       }
@@ -1282,32 +1043,16 @@
         let limite = sublimitesConfigDinamico[nombre];
         let gastado = gastosPorTipo[nombre] || 0;
         let falta = limite - gastado;
-        
-        let estadoTxt = "";
         let barraHtml = "";
 
         if (gastado > limite) {
           let exceso = gastado - limite;
-          estadoTxt = `<span style="font-size:9.5px; font-weight:700; color:var(--accent-red);">Excedido: $${format(exceso)}</span>`;
-          barraHtml = `
-            <div class="progress-bg">
-              <div class="progress-fill" style="width: 100%; background: var(--accent-red);"></div>
-            </div>
-            <div class="excedido-badge">⚠️ EXCEDIDO EN $${format(exceso)}</div>`;
+          barraHtml = `<div class="progress-bg"><div class="progress-fill" style="width:100%; background:var(--accent-red);"></div></div><div class="excedido-badge">⚠️ EXCEDIDO EN $${format(exceso)}</div>`;
         } else if (falta === 0) {
-          estadoTxt = "";
-          barraHtml = `
-            <div class="progress-bg">
-              <div class="progress-fill" style="width: 100%; background: var(--accent-green);"></div>
-            </div>
-            <div class="pagado-badge">✨ COMPLETADO</div>`;
+          barraHtml = `<div class="progress-bg"><div class="progress-fill" style="width:100%; background:var(--accent-green);"></div></div><div class="pagado-badge">✨ COMPLETADO</div>`;
         } else {
-          estadoTxt = `<span style="font-size:9.5px; font-weight:700; color:var(--accent-green);">Quedan: $${format(falta)}</span>`;
           let pct = limite > 0 ? (gastado / limite) * 100 : 0;
-          barraHtml = `
-            <div class="progress-bg">
-              <div class="progress-fill" style="width: ${Math.min(pct, 100)}%; background: var(--accent-green);"></div>
-            </div>`;
+          barraHtml = `<div class="progress-bg"><div class="progress-fill" style="width:${Math.min(pct, 100)}%; background:var(--accent-green);"></div></div>`;
         }
 
         subContainer.innerHTML += `
@@ -1317,9 +1062,7 @@
                 <div style="font-size:10.5px; font-weight:700;">${nombre.toUpperCase()}</div>
                 <div style="font-size:9px; color:var(--text-sub);">Límite: $${format(limite)} | Gastado: $${format(gastado)}</div>
               </div>
-              <div style="text-align:right;">
-                ${estadoTxt}
-              </div>
+              <div style="text-align:right;"><span style="font-size:9.5px; font-weight:700; color:${falta >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};">${falta >= 0 ? 'Quedan: $' + format(falta) : ''}</span></div>
             </div>
             ${barraHtml}
           </div>
@@ -1327,7 +1070,6 @@
       });
     }
 
-    // Inicialización
     inicializarFiltros();
     cargarDatos();
   </script>
